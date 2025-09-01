@@ -10,9 +10,9 @@
 
 class HelloWorld : public MenuAction {
 public:
-    HelloWorld() : MenuAction("Hello World") {}
+    HelloWorld() : MenuAction(F("Hello World")) {}
     void doAction() override {
-        Serial.println(F("Hello World"));
+        Serial.println(F("Printing Hello World for all my fans.  :)"));
     }
 };
 

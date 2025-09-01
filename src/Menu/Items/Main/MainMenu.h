@@ -11,7 +11,7 @@
 
 class MainMenu : public Menu {
 public:
-    MainMenu() : Menu("Main Menu") {
+    MainMenu() : Menu(F("Main Menu")) {
         addMenuOption(&_hello);
         addMenuOption(&_timeMenu);
 

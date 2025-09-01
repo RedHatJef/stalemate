@@ -9,7 +9,7 @@
 
 class SetHours : public DateTimeSetter {
 public:
-    SetHours() : DateTimeSetter("Set Hour (0..23)") {}
+    SetHours() : DateTimeSetter(F("Set Hour (0..23)")) {}
     void onValue(long value) override;
 };
 

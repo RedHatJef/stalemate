@@ -9,7 +9,7 @@
 
 class SetMinutes : public DateTimeSetter {
 public:
-    SetMinutes() : DateTimeSetter("Set Minute (0..59)") { }
+    SetMinutes() : DateTimeSetter(F("Set Minute (0..59)")) { }
     void onValue(long value) override;
 };
 

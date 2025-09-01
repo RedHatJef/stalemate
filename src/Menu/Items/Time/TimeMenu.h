@@ -16,7 +16,7 @@
 
 class TimeMenu : public Menu {
 public:
-    TimeMenu() : Menu("Time Settings") {
+    TimeMenu() : Menu(F("Time Settings")) {
         addMenuOption(&printDateTime);
         addMenuOption(&setYear);
         addMenuOption(&setMonth);

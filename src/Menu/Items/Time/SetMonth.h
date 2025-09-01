@@ -9,7 +9,7 @@
 
 class SetMonth : public DateTimeSetter {
 public:
-    SetMonth() : DateTimeSetter("Set Month (1..12)") { }
+    SetMonth() : DateTimeSetter(F("Set Month (1..12)")) { }
     void onValue(long value) override;
 };
 

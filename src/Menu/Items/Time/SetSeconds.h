@@ -9,7 +9,7 @@
 
 class SetSeconds : public DateTimeSetter {
 public:
-    SetSeconds() : DateTimeSetter("Set Second (0..59)") {}
+    SetSeconds() : DateTimeSetter(F("Set Second (0..59)")) {}
     void onValue(long value) override;
 };
 

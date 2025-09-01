@@ -38,6 +38,8 @@ void Display::update() {
     display.clearDisplay();
 
     display.setCursor(0, 10);
+    display.print(devices->clock->getDateString());
+    display.print(' ');
     display.println(devices->clock->getTimeString());
 
 //    display.print("BMP-TempF=");

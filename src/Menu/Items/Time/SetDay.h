@@ -10,7 +10,7 @@
 
 class SetDay : public DateTimeSetter {
 public:
-    SetDay() : DateTimeSetter("Set Day of Month (1..31)") { }
+    SetDay() : DateTimeSetter(F("Set Day of Month (1..31)")) { }
     void onValue(long value) override;
 };
 

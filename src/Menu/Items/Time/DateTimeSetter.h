@@ -10,7 +10,7 @@
 
 class DateTimeSetter : public MenuActionInput {
 public:
-    DateTimeSetter(const char* title) : MenuActionInput(title) { }
+    using MenuActionInput::MenuActionInput;
 
     void doAction() override {
         // Enter input capture for this instance

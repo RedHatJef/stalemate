@@ -10,7 +10,7 @@
 
 class PrintDateTime : public MenuAction {
 public:
-    PrintDateTime() : MenuAction("Print Date/Time") {}
+    PrintDateTime() : MenuAction(F("Print Date/Time")) {}
     void doAction() override;
 };
 

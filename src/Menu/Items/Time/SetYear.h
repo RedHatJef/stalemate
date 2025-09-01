@@ -9,7 +9,7 @@
 
 class SetYear : public DateTimeSetter {
 public:
-    SetYear() : DateTimeSetter("Set Year (2025..2099)") {}
+    SetYear() : DateTimeSetter(F("Set Year (2025..2099)")) {}
     void onValue(long value) override;
 };
 
