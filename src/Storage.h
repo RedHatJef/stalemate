@@ -2,8 +2,8 @@
 // Created by redha on 3/10/2025.
 //
 
-#ifndef ETHAN1_STORAGE_H
-#define ETHAN1_STORAGE_H
+#ifndef STALEMATE_STORAGE_H
+#define STALEMATE_STORAGE_H
 
 #include "Devices.h"
 #include "DataSample.h"
@@ -15,6 +15,9 @@ public:
     Storage();
     void init(const Devices* d);
     void update();
+
+    void printCardInfo();
+    void printFiles();
 
 private:
     void clearSampleBuffer();
@@ -29,4 +32,4 @@ private:
 };
 
 
-#endif //ETHAN1_STORAGE_H
+#endif //STALEMATE_STORAGE_H

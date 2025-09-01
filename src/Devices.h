@@ -2,8 +2,8 @@
 // Created by redha on 3/10/2025.
 //
 
-#ifndef ETHAN1_DEVICES_H
-#define ETHAN1_DEVICES_H
+#ifndef STALEMATE_DEVICES_H
+#define STALEMATE_DEVICES_H
 
 #include "Clock.h"
 #include "BMP.h"
@@ -17,4 +17,4 @@ typedef struct Devices {
 //    const SCD40_CO2* scd40;
 };
 
-#endif //ETHAN1_DEVICES_H
+#endif //STALEMATE_DEVICES_H

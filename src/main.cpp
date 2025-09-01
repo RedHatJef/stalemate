@@ -19,7 +19,7 @@ static Clock clock;
 //static SCD40_CO2 scd40;
 
 static Display display;
-//static Storage storage;
+static Storage storage;
 
 
 
@@ -64,11 +64,11 @@ void setup() {
     display.init(&devices);
     Serial.println("Display ready.");
 
-//    storage.init(&devices);
-//    Serial.println("Storage ready.");
-
+    storage.init(&devices);
+    Serial.println("Storage ready.");
 
     setMenuDevices(&devices);
+    setMenuStorage(&storage);
     Serial.println(F("\nMenu System Ready."));
     displayMenu();
 }
@@ -81,7 +81,7 @@ void loop() {
 //    sht.update();
 //    scd40.update();
     display.update();
-//    storage.update();
+    storage.update();
 
     unsigned long endTime = millis();
     unsigned long updateTime = endTime - startTime;

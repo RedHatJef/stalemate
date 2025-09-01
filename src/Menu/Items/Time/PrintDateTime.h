@@ -2,8 +2,8 @@
 // Created by redha on 9/1/2025.
 //
 
-#ifndef ETHAN1_PRINTTIME_H
-#define ETHAN1_PRINTTIME_H
+#ifndef STALEMATE_PRINTTIME_H
+#define STALEMATE_PRINTTIME_H
 
 #include <Arduino.h>
 #include "Menu/MenuAction.h"
@@ -15,4 +15,4 @@ public:
 };
 
 
-#endif //ETHAN1_PRINTTIME_H
+#endif //STALEMATE_PRINTTIME_H

@@ -2,8 +2,8 @@
 // Created by redha on 3/10/2025.
 //
 
-#ifndef ETHAN1_SHT_H
-#define ETHAN1_SHT_H
+#ifndef STALEMATE_SHT_H
+#define STALEMATE_SHT_H
 
 
 class SHT {
@@ -27,4 +27,4 @@ private:
 };
 
 
-#endif //ETHAN1_SHT_H
+#endif //STALEMATE_SHT_H

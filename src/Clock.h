@@ -2,8 +2,8 @@
 // Created by redha on 3/10/2025.
 //
 
-#ifndef ETHAN1_CLOCK_H
-#define ETHAN1_CLOCK_H
+#ifndef STALEMATE_CLOCK_H
+#define STALEMATE_CLOCK_H
 
 
 #include <stdint.h>
@@ -31,4 +31,4 @@ private:
 };
 
 
-#endif //ETHAN1_CLOCK_H
+#endif //STALEMATE_CLOCK_H

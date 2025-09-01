@@ -2,8 +2,8 @@
 // Created by redha on 9/1/2025.
 //
 
-#ifndef ETHAN1_MENUACTION_H
-#define ETHAN1_MENUACTION_H
+#ifndef STALEMATE_MENUACTION_H
+#define STALEMATE_MENUACTION_H
 
 #include "MenuOption.h"
 #include "Devices.h"
@@ -15,4 +15,4 @@ public:
     MenuKind kind() const override { return MenuKind::Action; }
 };
 
-#endif //ETHAN1_MENUACTION_H
+#endif //STALEMATE_MENUACTION_H

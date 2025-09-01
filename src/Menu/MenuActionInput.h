@@ -2,8 +2,8 @@
 // Created by redha on 9/1/2025.
 //
 
-#ifndef ETHAN1_MENUACTIONINPUT_H
-#define ETHAN1_MENUACTIONINPUT_H
+#ifndef STALEMATE_MENUACTIONINPUT_H
+#define STALEMATE_MENUACTIONINPUT_H
 
 #include <Arduino.h>
 #include "MenuAction.h"
@@ -31,4 +31,4 @@ public:
 };
 
 
-#endif //ETHAN1_MENUACTIONINPUT_H
+#endif //STALEMATE_MENUACTIONINPUT_H

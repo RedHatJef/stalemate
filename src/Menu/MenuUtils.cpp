@@ -24,6 +24,10 @@ void setMenuDevices(Devices* devices) {
     gMainMenu.setDevices(devices);
 }
 
+void setMenuStorage(Storage* s) {
+    gMainMenu.setStorage(s);
+}
+
 // ======== Small helper for input actions to enter input mode (no RTTI) ========
 void EnterInputMode(MenuActionInput* action) {
     beginIntegerInput(action);

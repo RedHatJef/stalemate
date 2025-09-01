@@ -30,4 +30,4 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(Z_DUMMY_TARGET ${SRC_LIST} src/Menu/Items/Time/SetMinutes.cpp src/Menu/Items/Time/SetMinutes.h src/Menu/Items/Time/SetMinutes.cpp src/Menu/Items/Time/SetHours.cpp src/Menu/Items/Time/SetSeconds.cpp src/Menu/Items/Time/SetSeconds.h src/Menu/Items/Time/SetYear.cpp src/Menu/Items/Time/SetYear.h src/Menu/Items/Time/SetMonth.cpp src/Menu/Items/Time/SetMonth.h src/Menu/Items/Time/SetDay.cpp src/Menu/Items/Time/SetDay.h)
+add_executable(Z_DUMMY_TARGET ${SRC_LIST})

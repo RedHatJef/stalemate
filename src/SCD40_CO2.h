@@ -2,8 +2,8 @@
 // Created by redha on 3/10/2025.
 //
 
-#ifndef ETHAN1_SCD40_CO2_H
-#define ETHAN1_SCD40_CO2_H
+#ifndef STALEMATE_SCD40_CO2_H
+#define STALEMATE_SCD40_CO2_H
 
 
 class SCD40_CO2 {
@@ -22,4 +22,4 @@ private:
 };
 
 
-#endif //ETHAN1_SCD40_CO2_H
+#endif //STALEMATE_SCD40_CO2_H

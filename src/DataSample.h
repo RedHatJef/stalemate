@@ -2,8 +2,8 @@
 // Created by redha on 3/12/2025.
 //
 
-#ifndef ETHAN1_DATASAMPLE_H
-#define ETHAN1_DATASAMPLE_H
+#ifndef STALEMATE_DATASAMPLE_H
+#define STALEMATE_DATASAMPLE_H
 
 
 class DataSample {
@@ -23,4 +23,4 @@ public:
 };
 
 
-#endif //ETHAN1_DATASAMPLE_H
+#endif //STALEMATE_DATASAMPLE_H

@@ -2,25 +2,31 @@
 // Created by redha on 9/1/2025.
 //
 
-#ifndef ETHAN1_MAINMENU_H
-#define ETHAN1_MAINMENU_H
+#ifndef STALEMATE_MAINMENU_H
+#define STALEMATE_MAINMENU_H
 
 #include "Menu/Menu.h"
 #include "Menu/Items/Time/TimeMenu.h"
-#include "HelloWorld.h"
+#include "Menu/Items/Storage/StorageMenu.h"
 
 class MainMenu : public Menu {
 public:
     MainMenu() : Menu(F("Main Menu")) {
-        addMenuOption(&_hello);
-        addMenuOption(&_timeMenu);
+        addMenuOption(&timeMenu);
+        addMenuOption(&storageMenu);
 
-        _timeMenu.setParent(this);
+        timeMenu.setParent(this);
+        storageMenu.setParent(this);
     }
+
+    void setStorage(Storage* s) {
+        storageMenu.setStorage(s);
+    }
+
 private:
-    HelloWorld _hello;
-    TimeMenu   _timeMenu;
+    TimeMenu timeMenu;
+    StorageMenu storageMenu;
 };
 
 
-#endif //ETHAN1_MAINMENU_H
+#endif //STALEMATE_MAINMENU_H

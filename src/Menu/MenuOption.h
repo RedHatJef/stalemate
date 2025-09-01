@@ -2,8 +2,8 @@
 // Created by redha on 9/1/2025.
 //
 
-#ifndef ETHAN1_MENUOPTION_H
-#define ETHAN1_MENUOPTION_H
+#ifndef STALEMATE_MENUOPTION_H
+#define STALEMATE_MENUOPTION_H
 
 #include "Devices.h"
 #include "MenuKind.h"
@@ -24,4 +24,4 @@ private:
 };
 
 
-#endif //ETHAN1_MENUOPTION_H
+#endif //STALEMATE_MENUOPTION_H

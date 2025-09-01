@@ -86,6 +86,7 @@ static void waitForCard() {
 }
 
 void Storage::recordSample() {
+    return;
     if(sampleBufferIndex >= SAMPLE_BUFFER_SIZE) {
         writeBufferToDisk();
         clearSampleBuffer();
@@ -103,8 +104,52 @@ void Storage::recordSample() {
 }
 
 void Storage::update() {
+    return;
     if(millis() - lastWrite > WRITE_INTERVAL_SECONDS * 1000)
     {
         recordSample();
     }
 }
+
+void Storage::printFiles() {
+    waitForCard();
+    sd.ls(LS_R | LS_DATE | LS_SIZE);
+}
+
+void Storage::printCardInfo() {
+    waitForCard();
+
+    if(sd.vol()->fatType() == 0) {
+        Serial.println(F("No valid FAT16/FAT32/exFAT partition."));
+        return;
+    }
+
+    uint32_t size = sd.card()->sectorCount();
+    if (size == 0) {
+        Serial.println(F("Can't determine the card size."));
+        return;
+    }
+
+    uint32_t sizeMB = 0.000512 * size + 0.5;
+    Serial.print(F("Card size: "));
+    Serial.print(sizeMB);
+    Serial.println(F(" MB (MB = 1,000,000 bytes)"));
+    if (sd.fatType() <= 32) {
+        Serial.print(F("Volume is FAT"));
+        Serial.print(int(sd.fatType()));
+    } else {
+        Serial.print(F("Volume is exFAT"));
+    }
+    Serial.print(F(", Cluster size (bytes): "));
+    Serial.println(sd.vol()->bytesPerCluster());
+
+    if ((sizeMB > 1100 && sd.vol()->sectorsPerCluster() < 64) ||
+        (sizeMB < 2200 && sd.vol()->fatType() == 32)) {
+        Serial.println(F("\nThis card should be reformatted for best performance.\n"));
+        Serial.println(F("   Use a cluster size of 32 KB for cards larger than 1 GB."));
+        Serial.println(F("   Only cards larger than 2 GB should be formatted FAT32."));
+        return;
+    }
+    Serial.println();
+}
+

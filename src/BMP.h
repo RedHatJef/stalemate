@@ -2,8 +2,8 @@
 // Created by redha on 3/10/2025.
 //
 
-#ifndef ETHAN1_BMP_H
-#define ETHAN1_BMP_H
+#ifndef STALEMATE_BMP_H
+#define STALEMATE_BMP_H
 
 
 class BMP {
@@ -27,4 +27,4 @@ private:
 };
 
 
-#endif //ETHAN1_BMP_H
+#endif //STALEMATE_BMP_H

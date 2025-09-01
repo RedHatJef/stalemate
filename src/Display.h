@@ -2,8 +2,8 @@
 // Created by redha on 3/10/2025.
 //
 
-#ifndef ETHAN1_DISPLAY_H
-#define ETHAN1_DISPLAY_H
+#ifndef STALEMATE_DISPLAY_H
+#define STALEMATE_DISPLAY_H
 
 
 #include "Devices.h"
@@ -20,4 +20,4 @@ private:
 };
 
 
-#endif //ETHAN1_DISPLAY_H
+#endif //STALEMATE_DISPLAY_H

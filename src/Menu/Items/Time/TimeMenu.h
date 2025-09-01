@@ -2,8 +2,8 @@
 // Created by redha on 9/1/2025.
 //
 
-#ifndef ETHAN1_TIMEMENU_H
-#define ETHAN1_TIMEMENU_H
+#ifndef STALEMATE_TIMEMENU_H
+#define STALEMATE_TIMEMENU_H
 
 #include "Menu/Menu.h"
 #include "PrintDateTime.h"
@@ -37,4 +37,4 @@ private:
 };
 
 
-#endif //ETHAN1_TIMEMENU_H
+#endif //STALEMATE_TIMEMENU_H

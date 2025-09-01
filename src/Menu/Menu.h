@@ -2,8 +2,8 @@
 // Created by redha on 9/1/2025.
 //
 
-#ifndef ETHAN1_MENU_H
-#define ETHAN1_MENU_H
+#ifndef STALEMATE_MENU_H
+#define STALEMATE_MENU_H
 
 #include <Arduino.h>
 #include "MenuOption.h"
@@ -58,4 +58,4 @@ private:
 };
 
 
-#endif //ETHAN1_MENU_H
+#endif //STALEMATE_MENU_H
