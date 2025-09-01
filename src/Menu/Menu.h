@@ -50,6 +50,8 @@ public:
 
     Menu* parent = nullptr;
 
+    void setDevices(Devices *devices) override;
+
 private:
     MenuOption* _items[MENU_MAX_ITEMS] = { nullptr };
     uint8_t _count = 0;

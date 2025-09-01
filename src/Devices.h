@@ -11,7 +11,7 @@
 #include "SCD40_CO2.h"
 
 typedef struct Devices {
-    const Clock* clock;
+    Clock* clock;
 //    const BMP* bmp;
 //    const SHT* sht;
 //    const SCD40_CO2* scd40;

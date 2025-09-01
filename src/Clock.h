@@ -6,14 +6,23 @@
 #define ETHAN1_CLOCK_H
 
 
+#include <stdint.h>
+
 class Clock {
 public:
     Clock();
     void init();
     void update();
 
-    const char* getTimeString() const;
-    const char* getDateString() const;
+    [[nodiscard]] const char* getTimeString() const;
+    [[nodiscard]] const char* getDateString() const;
+
+    void setYear(uint16_t val);
+    void setMonth(uint8_t val);
+    void setDay(uint8_t val);
+    void setHours(uint8_t val);
+    void setMinutes(uint8_t val);
+    void setSeconds(uint8_t val);
 
 private:
     void clearStrings();

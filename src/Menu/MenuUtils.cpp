@@ -20,6 +20,10 @@ static constexpr uint8_t INBUF_SIZE = 16;
 char gInbuf[INBUF_SIZE];
 uint8_t gInlen = 0;
 
+void setMenuDevices(Devices* devices) {
+    gMainMenu.setDevices(devices);
+}
+
 // ======== Small helper for input actions to enter input mode (no RTTI) ========
 void EnterInputMode(MenuActionInput* action) {
     beginIntegerInput(action);

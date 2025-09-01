@@ -15,9 +15,12 @@ public:
 
     const char* getTitle() const { return _title; }
     virtual MenuKind kind() const = 0;
+    virtual void setDevices(Devices* devices) { _devices = devices; }
+    Devices* getDevices() const { return _devices; }
 
 private:
     const char* _title;
+    Devices* _devices;
 };
 
 

@@ -68,7 +68,7 @@ void setup() {
 //    Serial.println("Storage ready.");
 
 
-    //mainMenu.setDevices(&devices);
+    setMenuDevices(&devices);
     Serial.println(F("\nMenu System Ready."));
     displayMenu();
 }

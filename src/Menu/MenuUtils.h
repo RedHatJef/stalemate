@@ -5,7 +5,6 @@
 #ifndef ETHAN1_MENUUTILS_H
 #define ETHAN1_MENUUTILS_H
 
-
 #include "MenuActionInput.h"
 
 extern void EnterInputMode(MenuActionInput* action);
@@ -15,5 +14,6 @@ extern void finishIntegerInput();
 extern void displayMenu();
 extern void handleMenuChoice(uint8_t digit);
 extern void processSerialInput();
+extern void setMenuDevices(Devices* devices);
 
 #endif //ETHAN1_MENUUTILS_H
