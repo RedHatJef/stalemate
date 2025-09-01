@@ -46,6 +46,8 @@ void BMP::init() {
         while(1) delay(10);
     }
 
+    chipId = bmp.chipID();
+
     bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_32X);
     bmp.setPressureOversampling(BMP3_OVERSAMPLING_32X);
     bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3);

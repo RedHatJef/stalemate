@@ -12,7 +12,7 @@
 
 typedef struct Devices {
     Clock* clock;
-//    const BMP* bmp;
+    const BMP* bmp;
 //    const SHT* sht;
 //    const SCD40_CO2* scd40;
 };

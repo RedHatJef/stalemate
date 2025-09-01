@@ -14,28 +14,22 @@
 static Devices devices;
 
 static Clock clock;
-//static BMP bmp;
+static BMP bmp;
 //static SHT sht;
 //static SCD40_CO2 scd40;
 
 static Display display;
 static Storage storage;
 
-
-
-
-
-
-
-
 void setup() {
     setSystemClock();
     delay(FRAMETIME_MILLIS * 10);
     Serial.begin(115200);
     delay(FRAMETIME_MILLIS);
+    Serial.println(F("Booting."));
 
     devices.clock = &clock;
-//    devices.bmp = &bmp;
+    devices.bmp = &bmp;
 //    devices.sht = &sht;
 //    devices.scd40 = &scd40;
 
@@ -43,15 +37,15 @@ void setup() {
 
     clock.init();
     clock.update();
-    Serial.println("Clock ready.");
+    Serial.println(F("Clock ready."));
 
-//    // run the bmp a bit so we get a valid altitude we can use with the co2 sensor
-//    bmp.init();
-//    for(int i = 0; i < 20; i++) {
-//        bmp.update();
-//        delay(FRAMETIME_MILLIS);
-//    }
-//    Serial.println("BMP390 ready.");
+    // run the bmp a bit so we get a valid altitude we can use with the co2 sensor
+    bmp.init();
+    for(int i = 0; i < 20; i++) {
+        bmp.update();
+        delay(FRAMETIME_MILLIS);
+    }
+    Serial.println(F("BMP390 ready."));
 //
 //    sht.init();
 //    sht.update();
@@ -62,14 +56,15 @@ void setup() {
 //    Serial.println("SCD40 ready.");
 
     display.init(&devices);
-    Serial.println("Display ready.");
+    Serial.println(F("Display ready."));
 
-    storage.init(&devices);
-    Serial.println("Storage ready.");
+//    storage.init(&devices);
+//    Serial.println(F("Storage ready."));
 
     setMenuDevices(&devices);
     setMenuStorage(&storage);
-    Serial.println(F("\nMenu System Ready."));
+    Serial.println(F("Menu System Ready."));
+    Serial.println();
     displayMenu();
 }
 
@@ -77,11 +72,11 @@ void loop() {
     unsigned long startTime = millis();
 
     clock.update();
-//    bmp.update();
+    bmp.update();
 //    sht.update();
 //    scd40.update();
     display.update();
-    storage.update();
+//    storage.update();
 
     unsigned long endTime = millis();
     unsigned long updateTime = endTime - startTime;
