@@ -1,0 +1,80 @@
+# !!! WARNING !!! AUTO-GENERATED FILE, PLEASE DO NOT MODIFY IT AND USE
+# https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+#
+# If you need to override existing CMake configuration or add extra,
+# please create `CMakeListsUser.txt` in the root of project.
+# The `CMakeListsUser.txt` will not be overwritten by PlatformIO.
+
+
+
+set(CMAKE_CONFIGURATION_TYPES "AVR128DA32" CACHE STRING "Build Types reflect PlatformIO Environments" FORCE)
+
+# Convert "Home Directory" that may contain unescaped backslashes on Windows
+file(TO_CMAKE_PATH $ENV{HOMEDRIVE}$ENV{HOMEPATH} ENV_HOME_PATH)
+
+
+SET(CMAKE_C_COMPILER "${ENV_HOME_PATH}/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe")
+SET(CMAKE_CXX_COMPILER "${ENV_HOME_PATH}/.platformio/packages/toolchain-atmelavr/bin/avr-g++.exe")
+SET(CMAKE_CXX_FLAGS "-std=gnu++17 -fpermissive -fno-exceptions -fno-threadsafe-statics -flto -Wno-sized-deallocation -Wno-error=narrowing -mmcu=avr128da32 -Os -w -ffunction-sections -fdata-sections -flto -mrelax")
+SET(CMAKE_C_FLAGS "-std=gnu11 -fno-fat-lto-objects -mmcu=avr128da32 -Os -w -ffunction-sections -fdata-sections -flto -mrelax")
+
+SET(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+
+if (CMAKE_BUILD_TYPE MATCHES "AVR128DA32")
+    add_definitions(-DPLATFORMIO=60104)
+    add_definitions(-DARDUINO_AVR_AVR128DA32)
+    add_definitions(-DARDUINO_avrda)
+    add_definitions(-DF_CPU=24000000L)
+    add_definitions(-DARDUINO_ARCH_MEGAAVR)
+    add_definitions(-DARDUINO=10808)
+    add_definitions(-DCLOCK_SOURCE=0)
+    add_definitions(-DDXCORE=\"1.5.6\")
+    add_definitions(-DDXCORE_MAJOR=1UL)
+    add_definitions(-DDXCORE_MINOR=5UL)
+    add_definitions(-DDXCORE_PATCH=6UL)
+    add_definitions(-DDXCORE_RELEASED=1)
+    add_definitions(-DCORE_ATTACH_ALL)
+    add_definitions(-DTWI_MORS_SINGLE)
+    add_definitions(-DMILLIS_USE_TIMERB2)
+
+    include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
+    include_directories("${CMAKE_CURRENT_LIST_DIR}/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/cores/dxcore/api/deprecated")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/cores/dxcore")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/variants/32pin-standard")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/AzduinoMAX38903/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/Comparator/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/DxCore/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/EEPROM/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/Event/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/Flash/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/Logic/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/Opamp/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/SD/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/SPI/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/Servo/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/Servo_DxCore/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/SoftwareSerial/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/USERSIG/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/Wire/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/ZCD/src")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/tinyNeoPixel")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/framework-arduino-megaavr-dxcore/libraries/tinyNeoPixel_Static")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed")
+    include_directories("${ENV_HOME_PATH}/.platformio/packages/toolchain-atmelavr/avr/include")
+
+    FILE(GLOB_RECURSE EXTRA_LIB_SOURCES
+        ${CMAKE_CURRENT_LIST_DIR}/.pio/libdeps/AVR128DA32/*.*
+    )
+endif()
+
+
+FILE(GLOB_RECURSE SRC_LIST
+    ${CMAKE_CURRENT_LIST_DIR}/src/*.*
+    ${CMAKE_CURRENT_LIST_DIR}/lib/*.*
+    ${CMAKE_CURRENT_LIST_DIR}/test/*.*
+)
+
+list(APPEND SRC_LIST ${EXTRA_LIB_SOURCES})
