@@ -30,4 +30,4 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(Z_DUMMY_TARGET ${SRC_LIST} src/Menu/Items/BMP390/BMP390Menu.cpp src/Menu/Items/BMP390/BMP390Menu.h src/Menu/Items/BMP390/PrintBMPInfo.h)
+add_executable(Z_DUMMY_TARGET ${SRC_LIST} src/Menu/Items/SCD40/SetSCD40TempOffset.h)

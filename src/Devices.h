@@ -13,8 +13,8 @@
 typedef struct Devices {
     Clock* clock;
     const BMP* bmp;
-//    const SHT* sht;
-//    const SCD40_CO2* scd40;
+    const SHT* sht;
+    SCD40_CO2* scd40;
 };
 
 #endif //STALEMATE_DEVICES_H

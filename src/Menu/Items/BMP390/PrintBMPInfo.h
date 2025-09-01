@@ -13,7 +13,8 @@ public:
     PrintBMPInfo() : MenuAction(F("Print BMP390 Info")) { }
 
     void doAction() override {
-        Serial.print(F("BMP390: ChipId = "));
+        Serial.println(F("BMP390 Pressure/Altimeter Chip Sensor:"));
+        Serial.print(F("  ChipId     = "));
         Serial.println(getDevices()->bmp->getChipID());
         Serial.print(F("  Temp C     = "));
         Serial.println(getDevices()->bmp->getTempC());

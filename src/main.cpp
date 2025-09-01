@@ -15,8 +15,8 @@ static Devices devices;
 
 static Clock clock;
 static BMP bmp;
-//static SHT sht;
-//static SCD40_CO2 scd40;
+static SHT sht;
+static SCD40_CO2 scd40;
 
 static Display display;
 static Storage storage;
@@ -30,8 +30,8 @@ void setup() {
 
     devices.clock = &clock;
     devices.bmp = &bmp;
-//    devices.sht = &sht;
-//    devices.scd40 = &scd40;
+    devices.sht = &sht;
+    devices.scd40 = &scd40;
 
     Wire.begin();
 
@@ -46,14 +46,14 @@ void setup() {
         delay(FRAMETIME_MILLIS);
     }
     Serial.println(F("BMP390 ready."));
-//
-//    sht.init();
-//    sht.update();
-//    Serial.println("SHT31 ready.");
-//
-//    scd40.init(bmp.getAltitudeM());
-//    scd40.update();
-//    Serial.println("SCD40 ready.");
+
+    sht.init();
+    sht.update();
+    Serial.println(F("SHT31 ready."));
+
+    scd40.init(bmp.getAltitudeM());
+    scd40.update();
+    Serial.println("SCD40 ready.");
 
     display.init(&devices);
     Serial.println(F("Display ready."));
@@ -73,8 +73,8 @@ void loop() {
 
     clock.update();
     bmp.update();
-//    sht.update();
-//    scd40.update();
+    sht.update();
+    scd40.update();
     display.update();
 //    storage.update();
 

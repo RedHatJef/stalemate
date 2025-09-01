@@ -42,20 +42,21 @@ void Display::update() {
     display.print(' ');
     display.println(devices->clock->getTimeString());
 
-//    display.print("BMP-TempF=");
-//    display.println(devices->bmp->getTempF());
-//
-//    display.print("BMP-AltF=");
-//    display.println(devices->bmp->getAltitudeF());
-//
-//    display.print("SHT-TempF=");
-//    display.println(devices->sht->getTempF());
-//    display.print("SHT-Hum=");
-//    display.print(devices->sht->getHumidity());
-//    display.println('%');
-//
-//    display.print("SCD40-CO2=");
-//    display.println(devices->scd40->getCO2PPM());
+    display.print(F("BMP "));
+    display.print(devices->bmp->getTempF());
+    display.print(F("F "));
+    display.print(devices->bmp->getAltitudeF());
+    display.println('\'');
+
+    display.print(F("SHT "));
+    display.print(devices->sht->getTempF());
+    display.print("F ");
+    display.print(devices->sht->getHumidity());
+    display.println('%');
+
+    display.print(F("SCD40 "));
+    display.print(devices->scd40->getCO2PPM());
+    display.println(F(" ppm"));
 
     display.display();
 }

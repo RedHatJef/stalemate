@@ -10,7 +10,7 @@
 
 class BMP390Menu : public Menu {
 public:
-    BMP390Menu() : Menu(F("BMP390 Pressure/Altimeter Options")) {
+    BMP390Menu() : Menu(F("BMP390 Options (Pressure/Altimeter)")) {
         addMenuOption(&printBmpInfo);
     }
 
