@@ -5,7 +5,7 @@
 #include "Devices.h"
 #include "Devices/SCD40_CO2.h"
 #include "Devices/Storage.h"
-#include "Utils.h"
+#include "Util/Utils.h"
 #include "Menu/Items/Main/MainMenu.h"
 #include "Menu/UiState.h"
 #include "Menu/MenuActionInput.h"
@@ -53,11 +53,11 @@ void setup() {
     sht.update();
     Serial.println(F("SHT31 ready."));
 
-    scd40.init(bmp.getAltitudeM());
-    scd40.update();
+//    scd40.init(bmp.getAltitudeM());
+//    scd40.update();
     Serial.println("SCD40 ready.");
 
-    explorIR.begin();
+    explorIR.init();
     Serial.println("ExplorIR ready.");
 
     display.init(&devices);
@@ -79,8 +79,9 @@ void loop() {
     clock.update();
     bmp.update();
     sht.update();
-    scd40.update();
+//    scd40.update();
     display.update();
+    explorIR.update();
 //    storage.update();
 
     unsigned long endTime = millis();

@@ -1,0 +1,14 @@
+//
+// Created by redha on 9/2/2025.
+//
+
+#ifndef STALEMATE_EXPLORIRRUNMODE_H
+#define STALEMATE_EXPLORIRRUNMODE_H
+
+enum ExplorIRRunMode {
+    MODE_COMMAND_SLEEP = 0,
+    MODE_STREAMING = 1,
+    MODE_POLLING = 2
+};
+
+#endif //STALEMATE_EXPLORIRRUNMODE_H

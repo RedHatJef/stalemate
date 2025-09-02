@@ -58,5 +58,10 @@ void Display::update() {
     display.print(devices->scd40->getCO2PPM());
     display.println(F(" ppm"));
 
+    display.print(F("EXPLR "));
+    display.print(devices->explorIR->getFilteredCO2PPM());
+    display.print(' ');
+    display.println(devices->explorIR->getUnfilteredCO2PPM());
+
     display.display();
 }

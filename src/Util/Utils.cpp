@@ -2,6 +2,8 @@
 // Created by redha on 3/10/2025.
 //
 
+#include <new>
+#include <string.h>
 #include "Utils.h"
 
 float getFeetFromMeters(float meters) {
@@ -41,3 +43,27 @@ void setSystemClock(void)
 {
     CCPWrite((uint8_t*)&(CLKCTRL.OSCHFCTRLA), (CLKCTRL.OSCHFCTRLA | CLKCTRL_FREQSEL_24M_gc));
 }
+
+int parseFiveDigits(const char* charDigits) {
+    char input[6];
+    memset(input, 0, sizeof(input));
+
+    // Verify all five characters are digits
+    for (int i = 0; i < 5; i++) {
+        char c = charDigits[i];
+        if (c < '0' || c > '9') {
+            return -1; // invalid character
+        }
+        input[i] = c;
+    }
+
+    // Verify null terminator
+    if (input[5] != '\0') {
+        return -1; // not properly null-terminated
+    }
+
+    // Use atoi to convert
+    int value = atoi(input);
+    return value;
+}
+

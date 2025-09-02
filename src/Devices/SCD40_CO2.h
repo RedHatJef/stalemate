@@ -6,7 +6,7 @@
 #define STALEMATE_SCD40_CO2_H
 
 #include <stdint.h>
-#include "Utils.h"
+#include "Util/Utils.h"
 
 class SCD40_CO2 {
 public:

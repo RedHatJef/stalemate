@@ -18,5 +18,6 @@ extern float getFeetFromMeters(float meters);
 extern float getFahrenheitFromCelsius(float tempC);
 extern void CCPWrite( volatile uint8_t * address, uint8_t value );
 extern void setSystemClock(void);
+extern int parseFiveDigits(const char* input);
 
 #endif //STALEMATE_UTILS_H

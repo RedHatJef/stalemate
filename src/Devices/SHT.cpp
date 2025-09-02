@@ -4,7 +4,7 @@
 
 #include "SHT.h"
 #include "Adafruit_SHT31.h"
-#include "Utils.h"
+#include "Util/Utils.h"
 
 #ifdef SHT31_ENABLE_DEBUGGING
 #define SHT31_DEBUG(x) Serial.println(x)
