@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "Display.h"
-#include "Clock.h"
+#include "Devices/Clock.h"
 #include "Devices.h"
-#include "SCD40_CO2.h"
-#include "Storage.h"
+#include "Devices/SCD40_CO2.h"
+#include "Devices/Storage.h"
 #include "Utils.h"
 #include "Menu/Items/Main/MainMenu.h"
 #include "Menu/UiState.h"
@@ -17,6 +17,7 @@ static Clock clock;
 static BMP bmp;
 static SHT sht;
 static SCD40_CO2 scd40;
+static ExplorIRCO2 explorIR;
 
 static Display display;
 static Storage storage;
@@ -32,6 +33,7 @@ void setup() {
     devices.bmp = &bmp;
     devices.sht = &sht;
     devices.scd40 = &scd40;
+    devices.explorIR = &explorIR;
 
     Wire.begin();
 
@@ -54,6 +56,9 @@ void setup() {
     scd40.init(bmp.getAltitudeM());
     scd40.update();
     Serial.println("SCD40 ready.");
+
+    explorIR.begin();
+    Serial.println("ExplorIR ready.");
 
     display.init(&devices);
     Serial.println(F("Display ready."));

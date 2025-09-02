@@ -5,16 +5,18 @@
 #ifndef STALEMATE_DEVICES_H
 #define STALEMATE_DEVICES_H
 
-#include "Clock.h"
-#include "BMP.h"
-#include "SHT.h"
-#include "SCD40_CO2.h"
+#include "Devices/Clock.h"
+#include "Devices/BMP.h"
+#include "Devices/SHT.h"
+#include "Devices/SCD40_CO2.h"
+#include "Devices/ExplorIR/ExplorIRCO2.h"
 
 typedef struct Devices {
     Clock* clock;
     const BMP* bmp;
     const SHT* sht;
     SCD40_CO2* scd40;
+    ExplorIRCO2* explorIR;
 };
 
 #endif //STALEMATE_DEVICES_H

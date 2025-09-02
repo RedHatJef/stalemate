@@ -6,7 +6,7 @@
 #define STALEMATE_MENUUTILS_H
 
 #include "MenuActionInput.h"
-#include "Storage.h"
+#include "Devices/Storage.h"
 
 extern void EnterInputMode(MenuActionInput* action);
 extern void beginIntegerInput(MenuActionInput* action);

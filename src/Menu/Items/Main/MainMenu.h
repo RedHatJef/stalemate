@@ -11,6 +11,7 @@
 #include "Menu/Items/BMP390/BMP390Menu.h"
 #include "Menu/Items/SHT31/SHT31Menu.h"
 #include "Menu/Items/SCD40/SCD40Menu.h"
+#include "Menu/Items/ExplorIR/ExplorIRMenu.h"
 
 class MainMenu : public Menu {
 public:
@@ -20,12 +21,14 @@ public:
         addMenuOption(&bmp390Menu);
         addMenuOption(&sht31Menu);
         addMenuOption(&scd40Menu);
+        addMenuOption(&explorIrMenu);
 
         timeMenu.setParent(this);
         storageMenu.setParent(this);
         bmp390Menu.setParent(this);
         sht31Menu.setParent(this);
         scd40Menu.setParent(this);
+        explorIrMenu.setParent(this);
     }
 
     void setStorage(Storage* s) {
@@ -38,6 +41,7 @@ private:
     BMP390Menu bmp390Menu;
     SHT31Menu sht31Menu;
     SCD40Menu scd40Menu;
+    ExplorIRMenu explorIrMenu;
 };
 
 #endif //STALEMATE_MAINMENU_H
