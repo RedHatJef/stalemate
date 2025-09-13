@@ -42,7 +42,7 @@ float BMP::getAltitudeF() const {
 
 void BMP::init() {
     if(!bmp.begin_I2C()) {
-        Serial.println("Failed to start BMP390");
+        Serial.println(F("Failed to start BMP390"));
         while(1) delay(10);
     }
 
@@ -56,7 +56,7 @@ void BMP::init() {
 
 void BMP::update() {
     if(!bmp.performReading()) {
-        Serial.println("Failed to read bmp390");
+        Serial.println(F("Failed to read bmp390"));
         return;
     }
 

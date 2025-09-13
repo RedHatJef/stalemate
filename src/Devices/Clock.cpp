@@ -29,7 +29,7 @@ void Clock::clearStrings() {
 void Clock::init() {
     if(!rtc.begin())
     {
-        Serial.println("Failed to start RTC");
+        Serial.println(F("Failed to start RTC"));
         while(1) delay(10);
     }
 }

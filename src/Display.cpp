@@ -24,12 +24,23 @@ void Display::init(const Devices* d) {
     // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
     if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
         Serial.println(F("SSD1306 allocation failed"));
-        for(;;); // Don't proceed, loop forever
+        for(;;); // Don't proceed, update forever
     }
 
 //    display.setFont(&FreeMono9pt7b);
     display.setTextColor(SSD1306_WHITE);
 
+    clear();
+}
+
+void Display::println(const __FlashStringHelper *s)
+{
+    display.println(s);
+    display.display();
+}
+
+void Display::clear()
+{
     display.clearDisplay();
     display.display();
 }
@@ -42,26 +53,10 @@ void Display::update() {
     display.print(' ');
     display.println(devices->clock->getTimeString());
 
-    display.print(F("BMP "));
-    display.print(devices->bmp->getTempF());
-    display.print(F("F "));
-    display.print(devices->bmp->getAltitudeF());
-    display.println('\'');
-
-    display.print(F("SHT "));
-    display.print(devices->sht->getTempF());
-    display.print("F ");
-    display.print(devices->sht->getHumidity());
-    display.println('%');
-
-    display.print(F("SCD40 "));
-    display.print(devices->scd40->getCO2PPM());
-    display.println(F(" ppm"));
-
-    display.print(F("EXPLR "));
-    display.print(devices->explorIR->getFilteredCO2PPM());
-    display.print(' ');
-    display.println(devices->explorIR->getUnfilteredCO2PPM());
+    display.printf(F("BMP %3.2fF %3.2f'\n"), devices->bmp->getTempF(), devices->bmp->getAltitudeF());
+    display.printf(F("SHT %3.2fF %3.2f%%\n"), devices->sht->getTempF(), devices->sht->getHumidity());
+    display.printf(F("SCD40 %d ppm\n"), devices->scd40->getCO2PPM());
+    display.printf(F("EXPIR %d %d\n"), devices->explorIR->getData()->getCO2PPMFiltered(), devices->explorIR->getData()->getCO2PPMUnfiltered());
 
     display.display();
 }

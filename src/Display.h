@@ -14,6 +14,8 @@ public:
 
     void init(const Devices* d);
     void update();
+    void clear();
+    void println(const __FlashStringHelper *s);
 
 private:
     const Devices* devices;

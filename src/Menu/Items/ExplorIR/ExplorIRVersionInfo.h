@@ -12,7 +12,7 @@ public:
     ExplorIRVersionInfo() : MenuAction(F("Print Firmware Version & Serial Number")) { }
 
     void doAction() override {
-        Serial.println(F("ExplorIR CO2 Sensor: "));
+        getDevices()->explorIR->getData()->printModuleInfo();
     }
 
 private:

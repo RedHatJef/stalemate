@@ -17,16 +17,22 @@ static Clock clock;
 static BMP bmp;
 static SHT sht;
 static SCD40_CO2 scd40;
-static ExplorIRCO2 explorIR;
+static ExplorIRSensor explorIR;
 
 static Display display;
 static Storage storage;
+
+void printBootLine(const __FlashStringHelper *s) {
+    Serial.println(s);
+    display.println(s);
+}
 
 void setup() {
     setSystemClock();
     delay(FRAMETIME_MILLIS * 10);
     Serial.begin(115200);
     delay(FRAMETIME_MILLIS);
+    for(int i = 0; i < 10; i++) Serial.println();
     Serial.println(F("Booting."));
 
     devices.clock = &clock;
@@ -36,10 +42,14 @@ void setup() {
     devices.explorIR = &explorIR;
 
     Wire.begin();
+    Serial.println(F("I2C Data bus ready."));
+
+    display.init(&devices);
+    Serial.println(F("Display ready."));
 
     clock.init();
     clock.update();
-    Serial.println(F("Clock ready."));
+    printBootLine(F("Clock OK"));
 
     // run the bmp a bit so we get a valid altitude we can use with the co2 sensor
     bmp.init();
@@ -47,24 +57,21 @@ void setup() {
         bmp.update();
         delay(FRAMETIME_MILLIS);
     }
-    Serial.println(F("BMP390 ready."));
+    printBootLine(F("BMP390 OK"));
 
     sht.init();
     sht.update();
-    Serial.println(F("SHT31 ready."));
+    printBootLine(F("SHT31 OK"));
 
-//    scd40.init(bmp.getAltitudeM());
-//    scd40.update();
-    Serial.println("SCD40 ready.");
+    scd40.init(bmp.getAltitudeM());
+    scd40.update();
+    printBootLine(F("SCD40 OK"));
 
     explorIR.init();
-    Serial.println("ExplorIR ready.");
-
-    display.init(&devices);
-    Serial.println(F("Display ready."));
+    printBootLine(F("ExplorIR CO2 OK"));
 
 //    storage.init(&devices);
-//    Serial.println(F("Storage ready."));
+//    printBootLine(F("Storage OK."));
 
     setMenuDevices(&devices);
     setMenuStorage(&storage);
@@ -79,7 +86,7 @@ void loop() {
     clock.update();
     bmp.update();
     sht.update();
-//    scd40.update();
+    scd40.update();
     display.update();
     explorIR.update();
 //    storage.update();

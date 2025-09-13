@@ -9,14 +9,14 @@
 #include "Devices/BMP.h"
 #include "Devices/SHT.h"
 #include "Devices/SCD40_CO2.h"
-#include "Devices/ExplorIR/ExplorIRCO2.h"
+#include "Devices/ExplorIR/ExplorIRSensor.h"
 
 typedef struct Devices {
     Clock* clock;
     const BMP* bmp;
     const SHT* sht;
     SCD40_CO2* scd40;
-    ExplorIRCO2* explorIR;
+    ExplorIRSensor* explorIR;
 };
 
 #endif //STALEMATE_DEVICES_H
