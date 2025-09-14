@@ -9,7 +9,7 @@
 #include "DataSample.h"
 #include "StorageFileName.h"
 
-#define SAMPLE_BUFFER_SIZE 200
+#define SAMPLE_BUFFER_SIZE 50
 
 class Storage {
 public:
