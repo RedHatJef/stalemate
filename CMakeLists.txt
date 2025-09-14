@@ -30,4 +30,4 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(Z_DUMMY_TARGET ${SRC_LIST})
+add_executable(Z_DUMMY_TARGET ${SRC_LIST} src/Menu/Items/ExplorIR/GetPressureCompensation.h src/Menu/Items/ExplorIR/SetPressureCompensation.h src/Menu/Items/ExplorIR/GetDigitalFilter.h src/Menu/Items/ExplorIR/SetDigitalFilter.h src/Menu/Items/ExplorIR/CalibrateIn100CO2.h src/Menu/Items/ExplorIR/CalibrateInNitrogenArgon.h src/Menu/Items/ExplorIR/CalibrateInFreshAir.h)

@@ -63,9 +63,9 @@ void setup() {
     sht.update();
     printBootLine(F("SHT31 OK"));
 
-    scd40.init(bmp.getAltitudeM());
-    scd40.update();
-    printBootLine(F("SCD40 OK"));
+//    scd40.init(bmp.getAltitudeM());
+//    scd40.update();
+//    printBootLine(F("SCD40 OK"));
 
     explorIR.init();
     printBootLine(F("ExplorIR CO2 OK"));
@@ -86,7 +86,7 @@ void loop() {
     clock.update();
     bmp.update();
     sht.update();
-    scd40.update();
+//    scd40.update();
     display.update();
     explorIR.update();
 //    storage.update();

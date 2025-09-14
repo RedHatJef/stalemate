@@ -80,9 +80,11 @@ static bool isFiveDigitResponse(char c)
         case 'K':
         case 'M':
         case '.':
-        case 's':
         case 'S':
+        case 's':
         case 'G':
+        case 'A':
+        case 'a':
             return true;
         default:
             return false;
@@ -100,17 +102,17 @@ static const char* getPollingModeString(int pollingMode)
     }
 }
 
-static int getCompensationFromAltitudeM(int altitudeM)
+int ExplorIRSensor::getCompensationFromAltitudeM(int altitudeM)
 {
     double pressure = 1013.0 * pow(1.0 - 2.25577e-5 * altitudeM, 5.25588);
     double diff = 1013.0 - pressure;
     double comp = 8192.0 + ((diff * 0.14) / 100.0) * 8192.0;
     int newCompInt = (int)comp;
-    EIR_PRINT(F("Calculated compensation value from altitudeM ("));
-    EIR_PRINT(altitudeM);
-    EIR_PRINT(F(") to ("));
-    EIR_PRINT(newCompInt);
-    EIR_PRINTLN(F(")"));
+    EIR_VERBOSE(F("Calculated compensation value from altitudeM ("));
+    EIR_VERBOSE(altitudeM);
+    EIR_VERBOSE(F(") to ("));
+    EIR_VERBOSE(newCompInt);
+    EIR_VERBOSELN(F(")"));
     return newCompInt;
 }
 
@@ -130,12 +132,13 @@ void ExplorIRSensor::busyWait()
 {
     // wait for a response
     update();
-    delay(100);
+    delay(10);
 }
 
 void ExplorIRSensor::sendCommand(const char *command) {
     EIR_VERBOSE(F("ExplorIR: Sending command --> "));
     EIR_VERBOSELN(command);
+    //Serial2.write("\r\n");
     Serial2.write(command);
     Serial2.flush();
 }
@@ -149,28 +152,19 @@ void ExplorIRSensor::init()
     EIR_DEBUGLN(F("ExplorIR: Serial port started"));
 
     stopPolling();
+    delay(50);
     EIR_VERBOSELN(F("ExplorIR: Stopped polling"));
 
     data.clear();
-    EIR_VERBOSELN(F("ExplorIR: Requesting PPM Scaling"));
-    sendCommand(".\r\n");
-    while (!data.hasPPMScaling())
-    {
-        busyWait();
-    }
-    EIR_DEBUGLN(F("ExplorIR: Got PPM Scaling"));
 
-    delay(100);
+    fetchCO2PPMScaling(false);
+    delay(50);
 
-    sendCommand("s\r\n");
-    EIR_VERBOSELN(F("ExplorIR: Requesting Pressure Compensation"));
-    while (!data.hasPressureCompensation())
-    {
-        busyWait();
-    }
-    EIR_DEBUGLN(F("ExplorIR: Got Pressure Compensation"));
+    fetchPressureCompensation(false);
+    delay(50);
 
-    delay(100);
+    fetchDigitalFilter(false);
+    delay(50);
 
     currentMValue = -1;
     EIR_VERBOSELN(F("ExplorIR: Requesting Data Field Configuration"));
@@ -181,7 +175,7 @@ void ExplorIRSensor::init()
     }
     EIR_DEBUGLN(F("ExplorIR: Got Data Field Configuration"));
 
-    delay(100);
+    delay(50);
 
     EIR_VERBOSELN(F("ExplorIR: Requesting Module Info"));
     sendCommand("Y\r\n");
@@ -189,7 +183,7 @@ void ExplorIRSensor::init()
     {
         busyWait();
     }
-    EIR_DEBUGLN(F("ExplorIR: Got Module Info"));
+    EIR_DEBUGLN(F("ExplorIR: Got Module Info: "));
 
     delay(100);
 
@@ -246,7 +240,6 @@ void ExplorIRSensor::setAltitudeM(int altitudeM)
     data.clearPressureCompensation();
     int newValue = getCompensationFromAltitudeM(altitudeM);
 
-    // TODO: Set to 'S' to make it actually set
     char command[16];
     snprintf(command, sizeof(command), "S %d\r\n", newValue);
     sendCommand(command);
@@ -258,14 +251,57 @@ void ExplorIRSensor::setAltitudeM(int altitudeM)
     startPolling();
 }
 
-void ExplorIRSensor::zeroInNitrogen()
+void ExplorIRSensor::setDigitalFilter(int newValue)
+{
+    EIR_DEBUG(F("Setting digital filter to: "));
+    EIR_DEBUGLN(newValue);
+
+    stopPolling();
+    data.clearDigitalFilter();
+
+    char command[16];
+    snprintf(command, sizeof(command), "A %d\r\n", newValue);
+    sendCommand(command);
+    while (!data.hasDigitalFilter())
+    {
+        busyWait();
+    }
+
+    startPolling();
+
+    EIR_DEBUG(F("Setting digital filter COMPLETE, new value is "));
+    EIR_DEBUGLN(data.getDigitalFilter());
+}
+
+int ExplorIRSensor::fetchDigitalFilter(bool togglePolling)
+{
+    if(togglePolling) stopPolling();
+
+    EIR_VERBOSELN(F("ExplorIR: Requesting Digital filter setting"));
+
+    data.clearDigitalFilter();
+    sendCommand("a\r\n");
+    while(!data.hasDigitalFilter())
+    {
+        busyWait();
+    }
+
+    EIR_PRINT(F("ExplorIR: Got Digital Filter Value: "));
+    EIR_PRINTLN(data.getDigitalFilter());
+
+    if(togglePolling) startPolling();
+}
+
+
+void ExplorIRSensor::calibrateInNitrogenArgon()
 {
     EIR_DEBUGLN(F("Zeroing in Nitrogen"));
 
     stopPolling();
 
+    data.clearNitrogenArgonCalibration();
     sendCommand("U\r\n");
-    while (!data.hasNitrogenCalibration())
+    while (!data.hasNitrogenArgonCalibration())
     {
         busyWait();
     }
@@ -275,47 +311,80 @@ void ExplorIRSensor::zeroInNitrogen()
     EIR_DEBUGLN(F("Zeroing in Nitrogen COMPLETE"));
 }
 
-void ExplorIRSensor::zeroIn100PercentCO2()
+void ExplorIRSensor::calibrateIn100PercentCO2()
 {
     EIR_DEBUGLN(F("Zeroing in 100% CO2."));
 
     stopPolling();
 
-    data.clearPPMScaling();
-    sendCommand(".\r\n");
-    while (!data.hasPPMScaling())
-    {
-        busyWait();
-    }
+    int scaleValue = fetchCO2PPMScaling(false);
+    EIR_DEBUG(F("Using CO2 scaling of : "));
+    EIR_DEBUGLN(scaleValue);
 
-    int calibrationValue = data.getCO2PPMScaling() * 100;
+    int calibrationValue = scaleValue * 100;
     EIR_DEBUG(F("Setting calibration value to : "));
     EIR_DEBUGLN(calibrationValue);
 
-    // sp.writeString("U\r\n");
-    // while (!data.hasCO2Calibration())
-    // {
-    //     // wait for a response
-    //     update();
-    //     Sleep(1);
-    // }
+    data.clearCO2Calibration();
+    sendCommand("U\r\n");
+    while(!data.hasCO2Calibration()) {
+        busyWait();
+    }
 
     startPolling();
 
     EIR_DEBUGLN(F("Zeroing in 100% CO2 COMPLETE."));
 }
 
-void ExplorIRSensor::calibrateInAir()
+void ExplorIRSensor::calibrateInFreshAir()
 {
     stopPolling();
 
+    data.clearFreshAirCalibration();
     sendCommand("G\r\n");
-    while (!data.hasAirCalibration())
+    while (!data.hasFreshAirCalibration())
     {
         busyWait();
     }
 
     startPolling();
+}
+
+int ExplorIRSensor::fetchCO2PPMScaling(bool togglePolling)
+{
+    if(togglePolling) stopPolling();
+
+    EIR_VERBOSELN(F("ExplorIR: Requesting PPM Scaling"));
+    sendCommand(".\r\n");
+    while (!data.hasPPMScaling())
+    {
+        busyWait();
+    }
+    EIR_PRINT(F("ExplorIR: Got PPM Scaling: "));
+    EIR_PRINTLN(data.getCO2PPMScaling());
+
+    if(togglePolling) startPolling();
+
+    return data.getCO2PPMScaling();
+}
+
+int ExplorIRSensor::fetchPressureCompensation(bool togglePolling)
+{
+    if(togglePolling) stopPolling();
+
+    sendCommand("s\r\n");
+    EIR_VERBOSELN(F("ExplorIR: Requesting Pressure Compensation"));
+    while (!data.hasPressureCompensation())
+    {
+        busyWait();
+    }
+
+    EIR_PRINT(F("ExplorIR: Got Pressure Compensation: "));
+    EIR_PRINTLN(data.getPressureCompensation());
+
+    if(togglePolling) startPolling();
+
+    return data.getPressureCompensation();
 }
 
 void ExplorIRSensor::clearMessageData()
@@ -346,24 +415,18 @@ const char* ExplorIRSensor::getPrintableMessageData()
 void ExplorIRSensor::stopPolling()
 {
     currentKValue = -1;
-    while (currentKValue < 0)
-    {
-        sendCommand("K 0\r\n");
-        for(int i = 0; i < 10; i++) {
-            busyWait();
-        }
+    sendCommand("K 0\r\n");
+    for(int i = 0; i < 10 && currentKValue < 0; i++) {
+        busyWait();
     }
 }
 
 void ExplorIRSensor::startPolling()
 {
     currentKValue = -1;
-    while (currentKValue < 0)
-    {
-        sendCommand("K 1\r\n");
-        for(int i = 0; i < 10; i++) {
-            busyWait();
-        }
+    sendCommand("K 1\r\n");
+    for(int i = 0; i < 10 && currentKValue < 0; i++) {
+        busyWait();
     }
 }
 
@@ -378,6 +441,11 @@ bool ExplorIRSensor::processRXBuffer()
             if (isWhitespace(c))
             {
                 // ignore
+            }
+            else if(c == '?')
+            {
+                // ignore - it probably thinks we send a blank line and we're just trying to
+                // wake it up and reset its state for a new command
             }
             else if (c == 'Y')
             {
@@ -485,19 +553,24 @@ void ExplorIRSensor::processCompletedMessage()
 
         // calibrations
         case 'U':
-            data.setNitrogenCalibration(getNumberFromMessage(currentMessageData));
-            EIR_VERBOSE_PRINTF1(F("Got new 100%% nitrogen calibration: %d\r\n"), data.getNitrogenCalibration());
+            data.setNitrogenArgonCalibration(getNumberFromMessage(currentMessageData));
+            EIR_VERBOSE_PRINTF1(F("Got new 100%% nitrogen calibration: %d\r\n"), data.getNitrogenArgonCalibration());
             break;
         case 'X':
             data.setCO2Calibration(getNumberFromMessage(currentMessageData));
             EIR_PRINTF1(F("Got new 100%% CO2 calibration: %d\r\n"), data.getCO2Calibration());
             break;
         case 'G':
-            data.setAirCalibration(getNumberFromMessage(currentMessageData));
-            EIR_PRINTF1(F("Got new fresh air calibration: %d\r\n"), data.getAirCalibration());
+            data.setFreshAirCalibration(getNumberFromMessage(currentMessageData));
+            EIR_PRINTF1(F("Got new fresh air calibration: %d\r\n"), data.getFreshAirCalibration());
+            break;
+        case 'A':
+        case 'a':
+            data.setDigitalFilter(getNumberFromMessage(currentMessageData));
+            EIR_PRINTF1(F("Got new digital filter: %d\r\n"), data.getDigitalFilter());
             break;
 
-        // device info
+            // device info
         case 'Y':
             {
                 const char* delims = "\r\n,";

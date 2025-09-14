@@ -12,11 +12,20 @@ public:
     void update();
 
     void setAltitudeM(int altitudeM);
-    void zeroInNitrogen();
-    void zeroIn100PercentCO2();
-    void calibrateInAir();
 
-    const ExplorIRData* getData() const { return &data; }
+    void calibrateInNitrogenArgon();
+    void calibrateIn100PercentCO2();
+    void calibrateInFreshAir();
+
+    void setDigitalFilter(int newValue);
+
+    int fetchPressureCompensation(bool startStopPolling = true);
+    int fetchCO2PPMScaling(bool togglePolling = true);
+    int fetchDigitalFilter(bool togglePolling = true);
+
+    [[nodiscard]] const ExplorIRData* getData() const { return &data; }
+
+    [[nodiscard]] static int getCompensationFromAltitudeM(int altitudeM);
 
 private:
     void clearMessageData();

@@ -10,9 +10,10 @@ void ExplorIRData::clear()
     clearPPMScaling();
     clearPressureCompensation();
     clearCO2Calibration();
-    clearNitrogenCalibration();
-    clearAirCalibration();
+    clearNitrogenArgonCalibration();
+    clearFreshAirCalibration();
     clearModuleInfo();
+    clearDigitalFilter();
 }
 
 void ExplorIRData::clearModuleInfo()
