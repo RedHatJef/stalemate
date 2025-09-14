@@ -118,13 +118,11 @@ int ExplorIRSensor::getCompensationFromAltitudeM(int altitudeM)
 
 ExplorIRSensor::ExplorIRSensor()
 {
-    rxBuf.clear();
     clearMessageData();
 }
 
 ExplorIRSensor::~ExplorIRSensor()
 {
-    rxBuf.clear();
     Serial2.end();
 }
 
@@ -196,40 +194,10 @@ void ExplorIRSensor::update()
     if(!Serial2.available()) return;
 
     int ic;
-    char c;
-
     while ((ic = Serial2.read()) > 0)
     {
-        c = (char)ic;
-        EIR_VERBOSE(F("EIRC: "));
-        EIR_VERBOSELN(ic);
-        if (rxBuf.isFull())
-        {
-            EIR_PRINTLN(F("RX Buffer is full"));
-            Serial.println();
-            rxBuf.printStats(true);
-            Serial.println();
-
-            while(1) delay(100);
-            break;
-        }
-        else
-        {
-            rxBuf.push(c);
-            #ifdef EIR_VERBOSE_DEBUGGING
-            rxBuf.printStats();
-            #endif
-        }
-
-        while (processRXBuffer())
-        {
-            // process everything we have
-        }
-    }
-
-    if(rxBuf.isEmpty()) {
-        EIR_VERBOSELN(F("Clearing rxBuf"));
-        rxBuf.clear();
+        char c = (char)ic;
+        processRXBuffer(c);
     }
 }
 
@@ -430,11 +398,8 @@ void ExplorIRSensor::startPolling()
     }
 }
 
-bool ExplorIRSensor::processRXBuffer()
+bool ExplorIRSensor::processRXBuffer(char c)
 {
-    char c;
-    if (!rxBuf.pop(c)) return false;
-
     switch (messageState)
     {
         case MESSAGE_STATE_NONE:

@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <Arduino.h>
 #include "ExplorIRData.h"
-#include "Util/SimpleQueue.h"
 
 class ExplorIRSensor
 {
@@ -46,13 +45,11 @@ private:
     char currentMessageData[128];
     uint8_t currentMessageDataIndex;
 
-    bool processRXBuffer();
+    bool processRXBuffer(char c);
     void processCompletedMessage();
 
     void busyWait();
     void sendCommand(const char* command);
-
-    SimpleQueue<char, 128> rxBuf;
 
     char printBuf[512];
     ExplorIRData data;
