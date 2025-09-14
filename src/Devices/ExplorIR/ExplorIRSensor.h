@@ -26,6 +26,8 @@ public:
 
     [[nodiscard]] static int getCompensationFromAltitudeM(int altitudeM);
 
+    [[nodiscard]] unsigned long getNumSamples() const { return numSamples; }
+
 private:
     void clearMessageData();
     const char* getPrintableMessageData();
@@ -56,6 +58,8 @@ private:
     int currentKValue = -1;
     int currentMValue = -1;
     uint8_t numYLines = 0;
+
+    unsigned long numSamples = 0;
 
     const bool verbose = true;
 };

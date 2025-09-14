@@ -169,7 +169,7 @@ void processSerialInput() {
             uint8_t digit = static_cast<uint8_t>(c - '0');
             handleMenuChoice(digit);
         } else if (c == '\n' || c == '\r') {
-            // ignore
+            Serial.print(F("\r\nCHOOSE> "));
         } else {
             Serial.println(F("Please enter a digit 0-9."));
         }

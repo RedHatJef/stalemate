@@ -5,10 +5,41 @@
 #include "Storage.h"
 #include "SdFat.h"
 
-#ifdef STORAGE_ENABLE_DEBUGGING
-#define STORAGE_DEBUG(x) Serial.println(x)
+#define STORAGE_DEBUGGING
+#undef  STORAGE_VERBOSE_DEBUGGING
+
+#define STORAGE_PRINT(x)                    Serial.print(x)
+#define STORAGE_PRINTLN(x)                  Serial.println(x)
+#define STORAGE_PRINTF1(x, y)               Serial.printf(x, y)
+#define STORAGE_PRINTF2(x, y, z)            Serial.printf(x, y, z)
+#define STORAGE_PRINTF3(x, y, z, w)         Serial.printf(x, y, z, w)
+
+#ifdef STORAGE_VERBOSE_DEBUGGING
+#define STORAGE_VERBOSELN(x)                Serial.println(x)
+#define STORAGE_VERBOSE(x)                  Serial.print(x)
+#define STORAGE_VERBOSE_PRINTF1(x, y)       Serial.printf(x, y)
+#define STORAGE_VERBOSE_PRINTF2(x, y, z)    Serial.printf(x, y, z)
+#define STORAGE_VERBOSE_PRINTF3(x, y, z, w) Serial.printf(x, y, z, w)
 #else
+#define STORAGE_VERBOSELN(x)
+#define STORAGE_VERBOSE(x)
+#define STORAGE_VERBOSE_PRINTF1(x, y)
+#define STORAGE_VERBOSE_PRINTF2(x, y, z)
+#define STORAGE_VERBOSE_PRINTF3(x, y, z, w)
+#endif
+
+#ifdef STORAGE_DEBUGGING
+#define STORAGE_DEBUGLN(x)                  Serial.println(x)
+#define STORAGE_DEBUG(x)                    Serial.print(x)
+#define STORAGE_DEBUG_PRINTF1(x, y)         Serial.printf(x, y)
+#define STORAGE_DEBUG_PRINTF2(x, y, z)      Serial.printf(x, y, z)
+#define STORAGE_DEBUG_PRINTF3(x, y, z, w)   Serial.printf(x, y, z, w)
+#else
+#define STORAGE_DEBUGLN(x)
 #define STORAGE_DEBUG(x)
+#define STORAGE_DEBUG_PRINTF1(x, y)
+#define STORAGE_DEBUG_PRINTF2(x, y, z)
+#define STORAGE_DEBUG_PRINTF3(x, y, z, w)
 #endif
 
 // chip select pin
@@ -44,71 +75,71 @@ Storage::Storage() {
 }
 
 void Storage::clearSampleBuffer() {
-    STORAGE_DEBUG("Storage: Clearing sample buffer")
-    memset(sampleBuffer, 0, sizeof(sampleBuffer));
+    for(int i = 0; i < SAMPLE_BUFFER_SIZE; i++) {
+        sampleBuffer[i].clear();
+    }
     sampleBufferIndex = 0;
 }
 
 void Storage::writeBufferToDisk() {
-    STORAGE_DEBUG("Storage: Writing buffer to disk")
+    STORAGE_DEBUGLN(F("Storage: Writing buffer to disk"));
+    clearSampleBuffer();
 }
 
 void Storage::init(const Devices *d) {
     devices = d;
 
-    if(!sd.begin(SD_CONFIG)) {
-        Serial.println(F("SDCard: Failed to initialize card."));
-        while(1) delay(10);
+    while(1) {
+        if(!sd.begin(SD_CONFIG))
+        {
+            STORAGE_PRINTLN(F("SDCard: Failed to initialize card, retrying."));
+            delay(10);
+            sd.end();
+            delay(500);
+        }
+        else
+        {
+            break;
+        }
     }
-    else if(sd.fatType() != FAT_TYPE_FAT32) {
-        Serial.printf(F("SDCard: Incorrect fat type detected (%s)"), sd.fatType());
+
+    if(sd.fatType() != FAT_TYPE_FAT32) {
+        STORAGE_PRINTF1(F("SDCard: Incorrect fat type detected (%s)"), sd.fatType());
         while(1) delay(10);
     }
 
-    STORAGE_DEBUG(F("SDCard: Started."));
+    STORAGE_DEBUGLN(F("SDCard: Started."));
 }
 
 static void waitForCard() {
     if(sd.isBusy()) {
-#if SDCARD_VERBOSE
-        Serial.print(F("Waiting for SD card to finish."));
-#endif
+        STORAGE_VERBOSE(F("Waiting for SD card to finish."));
         while(sd.isBusy()) {
-#if SDCARD_VERBOSE
-            Serial.print('.');
-#endif
+            STORAGE_VERBOSE('.');
             delay(1);
         }
-#if SDCARD_VERBOSE
-        Serial.println();
-#endif
+        STORAGE_VERBOSELN("");
     }
 }
 
 void Storage::recordSample() {
-    return;
     if(sampleBufferIndex >= SAMPLE_BUFFER_SIZE) {
         writeBufferToDisk();
         clearSampleBuffer();
     }
 
-    STORAGE_DEBUG("Storage: Recording sample.")
-    DataSample* data = &sampleBuffer[sampleBufferIndex];
-    memcpy(data->date, devices->clock->getDateString(), sizeof(data->date));
-    memcpy(data->time, devices->clock->getTimeString(), sizeof(data->time));
-//    data->bmp390TempC = devices->bmp->getTempC();
-//    data->sht31TempC = devices->sht->getTempC();
-//    data->sht31HumidityPercent = devices->sht->getHumidity();
-//    data->co2PPM = devices->scd40->getCO2PPM();
+    STORAGE_DEBUGLN("Storage: Recording sample.");
+    sampleBuffer[sampleBufferIndex].setFromDevices(devices);
     sampleBufferIndex++;
 }
 
-void Storage::update() {
-    return;
-    if(millis() - lastWrite > WRITE_INTERVAL_SECONDS * 1000)
-    {
-        recordSample();
-    }
+void Storage::update()
+{
+//    if(millis() - lastWrite < WRITE_INTERVAL_SECONDS * 1000) return;
+    unsigned long currentSampleNum = devices->explorIR->getNumSamples();
+    if(lastExplorIRSampleNum == currentSampleNum) return;
+    lastExplorIRSampleNum = currentSampleNum;
+    recordSample();
 }
 
 void Storage::printFiles() {
@@ -120,36 +151,36 @@ void Storage::printCardInfo() {
     waitForCard();
 
     if(sd.vol()->fatType() == 0) {
-        Serial.println(F("No valid FAT16/FAT32/exFAT partition."));
+        STORAGE_PRINTLN(F("No valid FAT16/FAT32/exFAT partition."));
         return;
     }
 
     uint32_t size = sd.card()->sectorCount();
     if (size == 0) {
-        Serial.println(F("Can't determine the card size."));
+        STORAGE_PRINTLN(F("Can't determine the card size."));
         return;
     }
 
     uint32_t sizeMB = 0.000512 * size + 0.5;
-    Serial.print(F("Card size: "));
-    Serial.print(sizeMB);
-    Serial.println(F(" MB (MB = 1,000,000 bytes)"));
+    STORAGE_PRINT(F("Card size: "));
+    STORAGE_PRINT(sizeMB);
+    STORAGE_PRINTLN(F(" MB (MB = 1,000,000 bytes)"));
     if (sd.fatType() <= 32) {
-        Serial.print(F("Volume is FAT"));
-        Serial.print(int(sd.fatType()));
+        STORAGE_PRINT(F("Volume is FAT"));
+        STORAGE_PRINT(int(sd.fatType()));
     } else {
-        Serial.print(F("Volume is exFAT"));
+        STORAGE_PRINT(F("Volume is exFAT"));
     }
-    Serial.print(F(", Cluster size (bytes): "));
-    Serial.println(sd.vol()->bytesPerCluster());
+    STORAGE_PRINT(F(", Cluster size (bytes): "));
+    STORAGE_PRINTLN(sd.vol()->bytesPerCluster());
 
     if ((sizeMB > 1100 && sd.vol()->sectorsPerCluster() < 64) ||
         (sizeMB < 2200 && sd.vol()->fatType() == 32)) {
-        Serial.println(F("\nThis card should be reformatted for best performance.\n"));
-        Serial.println(F("   Use a cluster size of 32 KB for cards larger than 1 GB."));
-        Serial.println(F("   Only cards larger than 2 GB should be formatted FAT32."));
+        STORAGE_PRINTLN(F("\nThis card should be reformatted for best performance.\n"));
+        STORAGE_PRINTLN(F("   Use a cluster size of 32 KB for cards larger than 1 GB."));
+        STORAGE_PRINTLN(F("   Only cards larger than 2 GB should be formatted FAT32."));
         return;
     }
-    Serial.println();
+    STORAGE_PRINTLN("");
 }
 

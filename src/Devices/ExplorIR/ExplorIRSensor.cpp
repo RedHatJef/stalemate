@@ -485,6 +485,7 @@ void ExplorIRSensor::processCompletedMessage()
         case 'Z':
             data.setCO2Filtered(getNumberFromMessage(currentMessageData));
             EIR_VERBOSE_PRINTF2(F("Got new filtered CO2  : %d (CO2%% = %3.2f%%)\r\n"), data.getCO2PPMFiltered(), data.getCO2PercentFiltered());
+            numSamples++;
             break;
         case 'z':
             data.setCO2Unfiltered(getNumberFromMessage(currentMessageData));

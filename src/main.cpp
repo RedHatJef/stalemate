@@ -70,8 +70,8 @@ void setup() {
     explorIR.init();
     printBootLine(F("ExplorIR CO2 OK"));
 
-//    storage.init(&devices);
-//    printBootLine(F("Storage OK."));
+    storage.init(&devices);
+    printBootLine(F("Storage OK."));
 
     setMenuDevices(&devices);
     setMenuStorage(&storage);
@@ -89,7 +89,7 @@ void loop() {
 //    scd40.update();
     display.update();
     explorIR.update();
-//    storage.update();
+    storage.update();
 
     unsigned long endTime = millis();
     unsigned long updateTime = endTime - startTime;

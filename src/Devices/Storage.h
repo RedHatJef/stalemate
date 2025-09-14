@@ -29,6 +29,8 @@ private:
     unsigned char sampleBufferIndex;
     const Devices* devices;
     unsigned long lastWrite;
+
+    unsigned long lastExplorIRSampleNum = (unsigned long)-1;
 };
 
 
