@@ -7,8 +7,9 @@
 
 #include "Devices.h"
 #include "DataSample.h"
+#include "StorageFileName.h"
 
-#define SAMPLE_BUFFER_SIZE 5
+#define SAMPLE_BUFFER_SIZE 200
 
 class Storage {
 public:
@@ -19,10 +20,15 @@ public:
     void printCardInfo();
     void printFiles();
 
+    uint8_t getNumSamples() const { return sampleBufferIndex + 1; }
+
 private:
     void clearSampleBuffer();
     void recordSample();
     void writeBufferToDisk();
+
+    void startCard();
+    void stopCard();
 
     const unsigned int WRITE_INTERVAL_SECONDS = 1;
     DataSample sampleBuffer[SAMPLE_BUFFER_SIZE];
@@ -31,6 +37,7 @@ private:
     unsigned long lastWrite;
 
     unsigned long lastExplorIRSampleNum = (unsigned long)-1;
+    StorageFileName storageFileName;
 };
 
 

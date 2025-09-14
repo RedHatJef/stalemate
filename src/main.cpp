@@ -4,7 +4,7 @@
 #include "Devices/Clock.h"
 #include "Devices.h"
 #include "Devices/SCD40_CO2.h"
-#include "Devices/Storage.h"
+#include "Devices/Storage/Storage.h"
 #include "Util/Utils.h"
 #include "Menu/Items/Main/MainMenu.h"
 #include "Menu/UiState.h"
@@ -63,9 +63,9 @@ void setup() {
     sht.update();
     printBootLine(F("SHT31 OK"));
 
-//    scd40.init(bmp.getAltitudeM());
-//    scd40.update();
-//    printBootLine(F("SCD40 OK"));
+    scd40.init(bmp.getAltitudeM());
+    scd40.update();
+    printBootLine(F("SCD40 OK"));
 
     explorIR.init();
     printBootLine(F("ExplorIR CO2 OK"));
@@ -86,10 +86,12 @@ void loop() {
     clock.update();
     bmp.update();
     sht.update();
-//    scd40.update();
+    scd40.update();
     display.update();
     explorIR.update();
     storage.update();
+
+    devices.numSamples = storage.getNumSamples();
 
     unsigned long endTime = millis();
     unsigned long updateTime = endTime - startTime;

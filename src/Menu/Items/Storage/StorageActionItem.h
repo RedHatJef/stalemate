@@ -6,7 +6,7 @@
 #define STALEMATE_STORAGEACTIONITEM_H
 
 #include <Arduino.h>
-#include "Devices/Storage.h"
+#include "Devices/Storage/Storage.h"
 #include "Menu/MenuAction.h"
 
 class StorageActionItem : public MenuAction {

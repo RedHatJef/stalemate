@@ -5,8 +5,8 @@
 #include "Storage.h"
 #include "SdFat.h"
 
-#define STORAGE_DEBUGGING
-#undef  STORAGE_VERBOSE_DEBUGGING
+#undef STORAGE_DEBUGGING
+#undef STORAGE_VERBOSE_DEBUGGING
 
 #define STORAGE_PRINT(x)                    Serial.print(x)
 #define STORAGE_PRINTLN(x)                  Serial.println(x)
@@ -82,17 +82,84 @@ void Storage::clearSampleBuffer() {
 }
 
 void Storage::writeBufferToDisk() {
-    STORAGE_DEBUGLN(F("Storage: Writing buffer to disk"));
+    STORAGE_DEBUG_PRINTF1(F("Storage: Writing buffer with (%d) samples to disk\r\n"), sampleBufferIndex+1);
+
+    startCard();
+
+    if(storageFileName.hasNewFileName()) {
+        storageFileName.updateFileName();
+        STORAGE_DEBUG_PRINTF1(F("Storage: Updated file name to (%s)\r\n"), storageFileName.getCurrentFileName());
+    }
+
+    const char* filename = storageFileName.getCurrentFileName();
+    char dataBuf[512];
+    File32 file;
+
+    if(sd.exists(filename)) {
+        STORAGE_DEBUG_PRINTF2(F("Storage: Appending file (%s) with (%d) samples\r\n"), filename, sampleBufferIndex+1);
+        file = sd.open(filename, O_WRONLY | O_APPEND);
+        if(file.getWriteError()) {
+            STORAGE_PRINTLN(F("Storage: Failed to open file for appending.\r\n"));
+            clearSampleBuffer();
+            return;
+        }
+    }
+    else
+    {
+        STORAGE_DEBUG_PRINTF2(F("Storage: Creating new file (%s) with (%d) samples\r\n"), filename, sampleBufferIndex+1);
+        file = sd.open(filename, O_WRONLY | O_CREAT);
+        if(file.getWriteError()) {
+            STORAGE_PRINTLN(F("Storage: Failed to open file for writing.\r\n"));
+            clearSampleBuffer();
+            return;
+        }
+
+        file.write(DataSample::tableHeader);
+        if(file.getWriteError()) {
+            STORAGE_PRINTLN(F("Storage: Failed to write header to file.\r\n"));
+            clearSampleBuffer();
+            return;
+        }
+    }
+
+    for(int i = 0; i < sampleBufferIndex; i++) {
+        const char* csvString = sampleBuffer[i].getDataString(dataBuf, sizeof(dataBuf));
+        file.write(csvString);
+
+        if(file.getWriteError()) {
+            STORAGE_PRINTLN(F("Storage: ERROR writing data to file.\r\n"));
+            file.clearWriteError();
+            break;
+        }
+    }
+    file.close();
+
+    STORAGE_DEBUG_PRINTF1(F("Storage: Wrote (%d) samples to disk\r\n"), sampleBufferIndex+1);
+
+    stopCard();
+
     clearSampleBuffer();
 }
 
 void Storage::init(const Devices *d) {
     devices = d;
 
+    startCard();
+    stopCard();
+
+    storageFileName.init(d);
+
+    STORAGE_DEBUGLN(F("Storage: Started."));
+}
+
+void Storage::startCard()
+{
+    STORAGE_DEBUGLN(F("Storage: Starting Card"));
+
     while(1) {
         if(!sd.begin(SD_CONFIG))
         {
-            STORAGE_PRINTLN(F("SDCard: Failed to initialize card, retrying."));
+            STORAGE_PRINTLN(F("Storage: Failed to initialize card, retrying."));
             delay(10);
             sd.end();
             delay(500);
@@ -104,16 +171,20 @@ void Storage::init(const Devices *d) {
     }
 
     if(sd.fatType() != FAT_TYPE_FAT32) {
-        STORAGE_PRINTF1(F("SDCard: Incorrect fat type detected (%s)"), sd.fatType());
+        STORAGE_PRINTF1(F("Storage: Incorrect fat type detected (%s)"), sd.fatType());
         while(1) delay(10);
     }
+}
 
-    STORAGE_DEBUGLN(F("SDCard: Started."));
+void Storage::stopCard()
+{
+    STORAGE_DEBUGLN(F("Storage: Stopping Card"));
+    sd.end();
 }
 
 static void waitForCard() {
     if(sd.isBusy()) {
-        STORAGE_VERBOSE(F("Waiting for SD card to finish."));
+        STORAGE_VERBOSE(F("Storage: Waiting for SD card to finish."));
         while(sd.isBusy()) {
             STORAGE_VERBOSE('.');
             delay(1);
@@ -128,7 +199,8 @@ void Storage::recordSample() {
         clearSampleBuffer();
     }
 
-    STORAGE_DEBUGLN("Storage: Recording sample.");
+    STORAGE_VERBOSE("Storage: Recording sample, ExplorIR Sample Num = ");
+    STORAGE_VERBOSELN(devices->explorIR->getNumSamples());
     sampleBuffer[sampleBufferIndex].setFromDevices(devices);
     sampleBufferIndex++;
 }
@@ -143,21 +215,24 @@ void Storage::update()
 }
 
 void Storage::printFiles() {
+    startCard();
     waitForCard();
     sd.ls(LS_R | LS_DATE | LS_SIZE);
+    stopCard();
 }
 
 void Storage::printCardInfo() {
+    startCard();
     waitForCard();
 
     if(sd.vol()->fatType() == 0) {
-        STORAGE_PRINTLN(F("No valid FAT16/FAT32/exFAT partition."));
+        STORAGE_PRINTLN(F("Storage: No valid FAT16/FAT32/exFAT partition."));
         return;
     }
 
     uint32_t size = sd.card()->sectorCount();
     if (size == 0) {
-        STORAGE_PRINTLN(F("Can't determine the card size."));
+        STORAGE_PRINTLN(F("Storage: Can't determine the card size."));
         return;
     }
 
@@ -182,5 +257,8 @@ void Storage::printCardInfo() {
         return;
     }
     STORAGE_PRINTLN("");
+    stopCard();
 }
+
+
 

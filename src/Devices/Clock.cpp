@@ -35,7 +35,7 @@ void Clock::init() {
 }
 
 void Clock::update() {
-    DateTime now = rtc.now();
+    now = rtc.now();
     clearStrings();
     snprintf(timeString, sizeof(timeString), "%02u:%02u:%02u", now.hour(), now.minute(), now.second());
     snprintf(dateString, sizeof(dateString), "%02u/%02u/%04u", now.month(), now.day(), now.year());

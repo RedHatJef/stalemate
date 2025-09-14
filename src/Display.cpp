@@ -58,5 +58,8 @@ void Display::update() {
     display.printf(F("SCD40 %d ppm\n"), devices->scd40->getCO2PPM());
     display.printf(F("EXPIR %d %d\n"), devices->explorIR->getData()->getCO2PPMFiltered(), devices->explorIR->getData()->getCO2PPMUnfiltered());
 
+    display.setCursor(100,50);
+    display.printf("%03d", devices->numSamples);
+
     display.display();
 }

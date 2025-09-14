@@ -17,6 +17,7 @@ typedef struct Devices {
     const SHT* sht;
     SCD40_CO2* scd40;
     ExplorIRSensor* explorIR;
+    uint8_t numSamples;
 };
 
 #endif //STALEMATE_DEVICES_H

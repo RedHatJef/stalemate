@@ -5,8 +5,7 @@
 #ifndef STALEMATE_CLOCK_H
 #define STALEMATE_CLOCK_H
 
-
-#include <stdint.h>
+#include "RTClib.h"
 
 class Clock {
 public:
@@ -16,6 +15,13 @@ public:
 
     [[nodiscard]] const char* getTimeString() const;
     [[nodiscard]] const char* getDateString() const;
+
+    [[nodiscard]] uint16_t getYear()    const { return now.year(); }
+    [[nodiscard]] uint8_t  getMonth()   const { return now.month(); }
+    [[nodiscard]] uint8_t  getDay()     const { return now.day(); }
+    [[nodiscard]] uint8_t  getHour()    const { return now.hour(); }
+    [[nodiscard]] uint8_t  getMinute()  const { return now.minute(); }
+    [[nodiscard]] uint8_t  getSecond()  const { return now.second(); }
 
     void setYear(uint16_t val);
     void setMonth(uint8_t val);
@@ -28,6 +34,7 @@ private:
     void clearStrings();
     char timeString[16];
     char dateString[16];
+    DateTime now;
 };
 
 
