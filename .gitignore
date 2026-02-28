@@ -41,5 +41,6 @@
 *.dwo
 .idea/
 .pio/
+.vscode/
 cmake-build-avr128da32/
 cmake-build-debug/
