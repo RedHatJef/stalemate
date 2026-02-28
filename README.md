@@ -138,7 +138,8 @@ Stalemate does not auto-format (FAT) the SD card, but does provide utilities to 
 
 <p align="center"><img src="img/SampleDataOutput.jpg" width="85%"></p>
 
-# Conclusion - Partial Success
+# Conclusion
+**Partial Success?**
 
 This is a great little data recorder, and works well to capture data from functional sensors in a cave environment.  Bigger/multiple batteries can be added to extend the data logger's life.  While a better screen would be nice, this costs power, and for a long-term device in a cave, turning this off after N seconds is a goal.
 
