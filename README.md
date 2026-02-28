@@ -153,3 +153,6 @@ Unfortunately, the main goal of this project was to monitor high levels of CO2, 
 * Unit will not start up without SD card inserted
   * The unit should start up and the display should run, even if nothing can be saved to the SD card.
 
+# Credits
+
+Thank you to **Ethan Perrine** of the [Underground Texas Grotto](https://utgrotto.org/) for the inspiration and encouragement to work on this project, as well as his excellent in-cave photos shared on this page.
