@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Platform-PlatformIO-ff6600?logo=platformio&logoColor=white" />
     <img src="https://img.shields.io/badge/status-COMPLETE-22783C" />
     <br>
-    <img src="https://img.shields.io/badge/Debug-UPDI-B9BEC3" />
+    <img src="https://img.shields.io/badge/Programmer-UPDI-B9BEC3" />
     <img src="https://img.shields.io/badge/Bus-I2C-c66a00" />
     <img src="https://img.shields.io/badge/Bus-SPI-c66a00" />
     <img src="https://img.shields.io/badge/Bus-UART-c66a00" />
