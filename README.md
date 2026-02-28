@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img src="img/Title.jpg" alt="STALEMATE" width="80%">
+    <img src="img/Title.jpg" alt="STALEMATE" width="100%">
 </p>
 
 <p align="center">
@@ -29,7 +29,7 @@
 
 # Project Overview
 
-<p align="center"><img src="img/Corner_CloseUp.jpg" alt="A close-up of the final version of Stalemate. Photo by Ethan Perrine." width="85%"></p>
+<p align="center"><img src="img/Corner_CloseUp.jpg" alt="A close-up of the final version of Stalemate. Photo by Ethan Perrine." width="100%"></p>
 
 Many of the underground caves in Texas can be difficult to explore, either at all times or just during summer months, due to high CO2 levels.  These levels can range from atmospheric to 1-2% (noticable) all the way up to 3-5% (dangerous).  High CO2 levels can be dangerous and at times life threatening.  Gaining an understanding of the cave atmosphere over time can help to identify better times for exploration and study of the cave, and can quantify the impact higher CO2 levels have on cave fauna.
 
@@ -99,17 +99,17 @@ It's hard to under-emphasize the abuse some of the cave devices I make go throug
 The carrier was designed and rendered in Autodesk Fusion360.
 
 <p align="center">
-<img src="img/PCB_Carrier_Model_Assembled.jpg" width="60%">
+<img src="img/PCB_Carrier_Model_Assembled.jpg" width="80%">
 </p>
 <p align="center">
-<img src="img/PCB_Carrier_Model_Exploded.jpg" width="60%">
+<img src="img/PCB_Carrier_Model_Exploded.jpg" width="80%">
 </p>
 
 ## Calibration Box
 
 The most important functionality of this device is its ability to detect up to 100% co2.  A calibration box was built to enclose the sensor, so it could be flooded with 100% CO2 (from a tank) as well as 100% Argon (to verify 0% CO2)
 
-<p align="center"><img src="img/CalibrationChamber.jpg" width="60%"></p>
+<p align="center"><img src="img/CalibrationChamber.jpg" width="80%"></p>
 
 Once the chamber was filled and sealed with a known gas, the serial port interface for the ExplorIR (connected directly to a PC with an RS232 dongle) was used to calibrate the sensor using the appropriate command (calibrate in 0%, calibrate in 100%).
 
@@ -120,15 +120,15 @@ In the past, smaller and self-contained projects have needed some complex displa
 The serial port connection is visible in pictures later on in this document - as a white three-pin header next to the OLED display.  A USB dongle (accepts 5V serial port signals and simulates an RS232 port to the host PC/phone) is connected to modify settings, but is not necessary for normal operation of Stalemate.
 
 ## Working out the bugs
-<p align="center"><img src="img/PrototypeOnMessyDesk.jpg" width="60%"></p>
-<p align="center"><img src="img/EnclosureMockUp.jpg" width="60%"></p>
+<p align="center"><img src="img/PrototypeOnMessyDesk.jpg" width="80%"></p>
+<p align="center"><img src="img/EnclosureMockUp.jpg" width="80%"></p>
 <p align="center"><img src="img/StalemateInAction.gif"></p>
 
 # Final Result
 The Stalemate was taken into several caves in central texas to gather data.  
 
-<p align="center"><img src="img/StaleMate_In_Cave.jpg" alt="Stalemate in action in a Texas Cave. Photo by Ethan Perrine." width="85%"></p>
-<p align="center"><img src="img/Overhead_WaterDroplets.jpg" alt="Stalemate in action in a Texas Cave. Photo by Ethan Perrine." width="85%"></p>
+<p align="center"><img src="img/StaleMate_In_Cave.jpg" alt="Stalemate in action in a Texas Cave. Photo by Ethan Perrine." width="100%"></p>
+<p align="center"><img src="img/Overhead_WaterDroplets.jpg" alt="Stalemate in action in a Texas Cave. Photo by Ethan Perrine." width="100%"></p>
 
 ## Data Output
 
@@ -136,7 +136,7 @@ Data is saved to the SD Card, using a modified standard ISO format - *_YYYYMMDD_
 Data rolls over to a new file every hour.  Files are either appended or created, as necessary.
 Stalemate does not auto-format (FAT) the SD card, but does provide utilities to do so in the serial port menu system.
 
-<p align="center"><img src="img/SampleDataOutput.jpg" width="80%"></p>
+<p align="center"><img src="img/SampleDataOutput.jpg" width="85%"></p>
 
 # Conclusion - Partial Success
 
