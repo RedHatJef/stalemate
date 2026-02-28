@@ -20,24 +20,30 @@ public:
     void printCardInfo();
     void printFiles();
 
-    uint8_t getNumSamples() const { return sampleBufferIndex + 1; }
+    [[nodiscard]] uint8_t getNumSamples() const { return sampleBufferIndex + 1; }
+
+    void refreshSampleRecordTimingMode();
 
 private:
     void clearSampleBuffer();
     void recordSample();
     void writeBufferToDisk();
+    bool shouldWriteSampleToDisk();
+    bool updateLastWriteMarker();
 
     void startCard();
     void stopCard();
 
-    const unsigned int WRITE_INTERVAL_SECONDS = 1;
     DataSample sampleBuffer[SAMPLE_BUFFER_SIZE];
     unsigned char sampleBufferIndex;
     const Devices* devices;
-    unsigned long lastWrite;
 
-    unsigned long lastExplorIRSampleNum = (unsigned long)-1;
+    uint32_t lastExplorIRSampleNum = (uint32_t)-1;
+    uint32_t lastRecordSeconds = (uint32_t)-1;
     StorageFileName storageFileName;
+
+    RecordMode recordMode;
+    uint32_t recordIntervalSeconds;
 };
 
 

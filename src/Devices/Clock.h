@@ -23,6 +23,8 @@ public:
     [[nodiscard]] uint8_t  getMinute()  const { return now.minute(); }
     [[nodiscard]] uint8_t  getSecond()  const { return now.second(); }
 
+    [[nodiscard]] uint32_t getEpochSeconds() const { return now.unixtime(); }
+
     void setYear(uint16_t val);
     void setMonth(uint8_t val);
     void setDay(uint8_t val);

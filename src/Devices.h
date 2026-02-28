@@ -10,6 +10,7 @@
 #include "Devices/SHT.h"
 #include "Devices/SCD40_CO2.h"
 #include "Devices/ExplorIR/ExplorIRSensor.h"
+#include "Devices/EEPROMData.h"
 
 typedef struct Devices {
     Clock* clock;
@@ -18,6 +19,7 @@ typedef struct Devices {
     SCD40_CO2* scd40;
     ExplorIRSensor* explorIR;
     uint8_t numSamples;
+    EEPROMData* eepromData;
 };
 
 #endif //STALEMATE_DEVICES_H

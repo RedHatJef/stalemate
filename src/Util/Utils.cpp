@@ -67,3 +67,38 @@ int parseFiveDigits(const char* charDigits) {
     return value;
 }
 
+void split_u32(uint32_t value, uint16_t *h, uint16_t *l) {
+    *l = (uint16_t)(value & 0xFFFF);       // lower 16 bits
+    *h = (uint16_t)((value >> 16) & 0xFFFF); // upper 16 bits
+}
+
+void split_u32(uint32_t value, uint8_t *split4) {
+    split4[3] = value & 0xFF;
+    value >>= 8;
+    split4[2] = value & 0xFF;
+    value >>= 8;
+    split4[1] = value & 0xFF;
+    value >>= 8;
+    split4[0] = value & 0xFF;
+}
+
+uint32_t combine_u32(const uint8_t *split4) {
+    uint32_t v = split4[0];
+    v <<= 8;
+    v += split4[1];
+    v <<= 8;
+    v += split4[2];
+    v <<= 8;
+    v += split4[3];
+    return v;
+}
+
+extern uint32_t combine_u32(uint16_t h, uint16_t l) {
+    uint32_t v = h;
+    v = v << 16;
+    v += l;
+    return v;
+}
+
+
+

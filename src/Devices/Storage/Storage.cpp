@@ -69,7 +69,6 @@ static const char* getPrintableFileSize(char* buf, uint64_t fileSize)
 }
 
 Storage::Storage() {
-    lastWrite = 0;
     sampleBufferIndex = 0;
     clearSampleBuffer();
 }
@@ -149,6 +148,8 @@ void Storage::init(const Devices *d) {
 
     storageFileName.init(d);
 
+    refreshSampleRecordTimingMode();
+
     STORAGE_DEBUGLN(F("Storage: Started."));
 }
 
@@ -207,11 +208,16 @@ void Storage::recordSample() {
 
 void Storage::update()
 {
-//    if(millis() - lastWrite < WRITE_INTERVAL_SECONDS * 1000) return;
-    unsigned long currentSampleNum = devices->explorIR->getNumSamples();
-    if(lastExplorIRSampleNum == currentSampleNum) return;
-    lastExplorIRSampleNum = currentSampleNum;
-    recordSample();
+    if(shouldWriteSampleToDisk()) {
+        recordSample();
+        updateLastWriteMarker();
+    }
+
+    if(devices->eepromData->isDirty()) {
+        STORAGE_DEBUGLN(F("Detected new eeprom settings, refreshing storage timing."));
+        refreshSampleRecordTimingMode();
+        devices->eepromData->clearDirty();
+    }
 }
 
 void Storage::printFiles() {
@@ -258,6 +264,39 @@ void Storage::printCardInfo() {
     }
     STORAGE_PRINTLN("");
     stopCard();
+}
+
+void Storage::refreshSampleRecordTimingMode() {
+    recordMode = devices->eepromData->getRecordMode();
+    recordIntervalSeconds = devices->eepromData->getRecordIntervalSeconds();
+    STORAGE_PRINT(F("Updating storage record mode: "));
+    STORAGE_PRINTLN(devices->eepromData->getRecordModeString(recordMode, recordIntervalSeconds));
+}
+
+bool Storage::shouldWriteSampleToDisk() {
+    switch(recordMode) {
+        case RECORDMODE_EVERY_UPDATE:
+            return lastExplorIRSampleNum != devices->explorIR->getNumSamples();
+        case RECORDMODE_SECONDS:
+            uint32_t currentSeconds = devices->clock->getEpochSeconds();
+            uint32_t timeSinceLastRecord = currentSeconds - lastRecordSeconds;
+            return timeSinceLastRecord >= recordIntervalSeconds;
+    }
+
+    return false;
+}
+
+bool Storage::updateLastWriteMarker() {
+    switch(recordMode) {
+        case RECORDMODE_EVERY_UPDATE:
+            lastExplorIRSampleNum = devices->explorIR->getNumSamples();
+            break;
+        case RECORDMODE_SECONDS:
+            lastRecordSeconds = devices->clock->getEpochSeconds();
+            break;
+    }
+
+    return false;
 }
 
 

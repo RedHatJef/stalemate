@@ -18,6 +18,7 @@ static BMP bmp;
 static SHT sht;
 static SCD40_CO2 scd40;
 static ExplorIRSensor explorIR;
+static EEPROMData eepromData;
 
 static Display display;
 static Storage storage;
@@ -40,6 +41,7 @@ void setup() {
     devices.sht = &sht;
     devices.scd40 = &scd40;
     devices.explorIR = &explorIR;
+    devices.eepromData = &eepromData;
 
     Wire.begin();
     Serial.println(F("I2C Data bus ready."));

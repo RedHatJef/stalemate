@@ -12,10 +12,12 @@
 #include "Menu/Items/SHT31/SHT31Menu.h"
 #include "Menu/Items/SCD40/SCD40Menu.h"
 #include "Menu/Items/ExplorIR/ExplorIRMenu.h"
+#include "Menu/Items/RecordOptions/RecordOptionMenu.h"
 
 class MainMenu : public Menu {
 public:
     MainMenu() : Menu(F("Main Menu")) {
+        addMenuOption(&recordOptionMenu);
         addMenuOption(&timeMenu);
         addMenuOption(&storageMenu);
         addMenuOption(&bmp390Menu);
@@ -23,6 +25,7 @@ public:
         addMenuOption(&scd40Menu);
         addMenuOption(&explorIrMenu);
 
+        recordOptionMenu.setParent(this);
         timeMenu.setParent(this);
         storageMenu.setParent(this);
         bmp390Menu.setParent(this);
@@ -36,6 +39,7 @@ public:
     }
 
 private:
+    RecordOptionMenu recordOptionMenu;
     TimeMenu timeMenu;
     StorageMenu storageMenu;
     BMP390Menu bmp390Menu;
