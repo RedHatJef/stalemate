@@ -29,7 +29,7 @@
 
 # Project Overview
 
-<p align="center"><img src="img/Corner_CloseUp.jpg" width="85%"></p>
+<p align="center"><img src="img/Corner_CloseUp.jpg" alt="A close-up of the final version of Stalemate. Photo by Ethan Perrine." width="85%"></p>
 
 Many of the underground caves in Texas can be difficult to explore, either at all times or just during summer months, due to high CO2 levels.  These levels can range from atmospheric to 1-2% (noticable) all the way up to 3-5% (dangerous).  High CO2 levels can be dangerous and at times life threatening.  Gaining an understanding of the cave atmosphere over time can help to identify better times for exploration and study of the cave, and can quantify the impact higher CO2 levels have on cave fauna.
 
@@ -80,8 +80,8 @@ The most important functionality of this device is its ability to detect up to 1
 # Final Result
 The Stalemate was taken into several caves in central texas to gather data.  
 
-<p align="center"><img src="img/StaleMate_In_Cave.jpg" width="85%"></p>
-<p align="center"><img src="img/Overhead_WaterDroplets.jpg" width="85%"></p>
+<p align="center"><img src="img/StaleMate_In_Cave.jpg" alt="Stalemate in action in a Texas Cave. Photo by Ethan Perrine." width="85%"></p>
+<p align="center"><img src="img/Overhead_WaterDroplets.jpg" alt="Stalemate in action in a Texas Cave. Photo by Ethan Perrine." width="85%"></p>
 
 ## Sample Data
 
