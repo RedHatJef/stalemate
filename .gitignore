@@ -44,3 +44,5 @@
 .vscode/
 cmake-build-avr128da32/
 cmake-build-debug/
+
+ExplorIRDebug/x64/*
