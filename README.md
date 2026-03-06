@@ -122,7 +122,12 @@ The serial port connection is visible in pictures later on in this document - as
 ## Working out the bugs
 <p align="center"><img src="img/PrototypeOnMessyDesk.jpg" width="80%"></p>
 <p align="center"><img src="img/EnclosureMockUp.jpg" width="80%"></p>
-<p align="center"><img src="img/StalemateInAction.gif"></p>
+
+<p align="center">
+  <a href="https://youtube.com/shorts/lwNxrhXpn_4?feature=share">
+    <img src="img/StalemateInAction.gif" width="80%">
+  </a>
+</p>
 
 # Final Result
 The Stalemate was taken into several caves in central texas to gather data.  
