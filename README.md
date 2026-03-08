@@ -21,6 +21,7 @@
     <img src="https://img.shields.io/badge/CO₂-ExplorIR--M--100-3399ff" />
     <img src="https://img.shields.io/badge/RH%2FTemp-SHT31-c44536" />
     <img src="https://img.shields.io/badge/Pressure-BMP390-b8860b" />
+    <img src="https://img.shields.io/badge/Display-SSD1306-6E75C8" />
 </p>
 
 ---
