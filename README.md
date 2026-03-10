@@ -130,6 +130,16 @@ The serial port connection is visible in pictures later on in this document - as
   </a>
 </p>
 
+## Real World Use
+
+The stalemate has been deployed to several caves thus far, and a lot of data has been gathered.  Currently, challenges with the ExplorIR CO2 sensor prevent measurement of CO2 levels much beyond 4%, and we're in contact with the manufacturer for guidance.
+
+In this picture, Eleonore from the UT Grotto is activating the Stalemate and starting to collect data in a local Texas cave.
+
+<p align="center">
+<img src="img/StalemateCaveEntrance.jpg" width="100%">
+</p>
+
 # Final Result
 The Stalemate was taken into several caves in central texas to gather data.  
 
