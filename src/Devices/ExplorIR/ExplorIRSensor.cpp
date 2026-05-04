@@ -2,7 +2,7 @@
 #include "Util/Utils.h"
 
 #define EIR_DEBUGGING
-#undef  EIR_VERBOSE_DEBUGGING
+#define  EIR_VERBOSE_DEBUGGING
 
 #define EIR_PRINT(x)                    Serial.print(x)
 #define EIR_PRINTLN(x)                  Serial.println(x)
@@ -484,12 +484,12 @@ void ExplorIRSensor::processCompletedMessage()
     {
         case 'Z':
             data.setCO2Filtered(getNumberFromMessage(currentMessageData));
-            EIR_VERBOSE_PRINTF2(F("Got new filtered CO2  : %d (CO2%% = %3.2f%%)\r\n"), data.getCO2PPMFiltered(), data.getCO2PercentFiltered());
+            //EIR_VERBOSE_PRINTF2(F("Got new filtered CO2  : %d (CO2%% = %3.2f%%)\r\n"), data.getCO2PPMFiltered(), data.getCO2PercentFiltered());
             numSamples++;
             break;
         case 'z':
             data.setCO2Unfiltered(getNumberFromMessage(currentMessageData));
-            EIR_VERBOSE_PRINTF2(F("Got new unfiltered CO2: %d (CO2%% = %3.2f%%)\r\n"), data.getCO2PPMUnfiltered(), data.getCO2PercentUnfiltered());
+            //EIR_VERBOSE_PRINTF2(F("Got new unfiltered CO2: %d (CO2%% = %3.2f%%)\r\n"), data.getCO2PPMUnfiltered(), data.getCO2PercentUnfiltered());
             break;
         case 'V':
             // filtered temperature value that's not a real temperature, don't save
@@ -528,7 +528,7 @@ void ExplorIRSensor::processCompletedMessage()
             break;
         case 'G':
             data.setFreshAirCalibration(getNumberFromMessage(currentMessageData));
-            EIR_PRINTF1(F("Got new fresh air calibration: %d\r\n"), data.getFreshAirCalibration());
+            EIR_PRINTF2(F("Got new fresh air calibration: %d = %s\r\n"), data.getFreshAirCalibration(), currentMessageData);
             break;
         case 'A':
         case 'a':
